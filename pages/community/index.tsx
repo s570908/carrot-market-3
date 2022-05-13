@@ -6,8 +6,8 @@ import Layout from "../../components/layout";
 const Community: NextPage = () => {
   return (
     <Layout title="동네생활" hasTabBar>
-      <div className="space-y-8 px-4 py-16">
-        {[1, 2, 3, 4, 5].map((_, i) => (
+      <div className="space-y-8 px-4 py-10">
+        {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Link key={i} href={`/community/${i}`}>
             <a className="flex cursor-pointer flex-col items-start pt-4">
               <span className="ml-4 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
