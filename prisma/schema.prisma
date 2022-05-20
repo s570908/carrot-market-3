@@ -20,4 +20,14 @@ model User {
   avatar String?
   created DateTime @default(now())
   updated DateTime @updatedAt
+  tokens Token[]
+}
+
+model Token {
+  id Int @id @default(autoincrement())
+  payload String  @unique
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  created DateTime @default(now())
+  updated DateTime @updatedAt
 }
