@@ -85,7 +85,7 @@ const Enter: NextPage = () => {
             <Button text={loading ? "Loading" : "Get login link"} />
           ) : null}
           {method === "phone" ? (
-            <Button text={"Get one-time password"} />
+            <Button text={loading ? "Loading" : "Get one-time password"} />
           ) : null}
         </form>
         <div className="mt-8">
