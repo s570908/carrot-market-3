@@ -6,6 +6,7 @@ import Input from "@components/input";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 interface EnterForm {
   email?: string;
@@ -53,6 +54,9 @@ const Enter: NextPage = () => {
   }, [tokenData, router]);
   return (
     <div className="mt-16 px-4">
+      <Head>
+        <title>Log in</title>
+      </Head>
       <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
       <div className="mt-8">
         {data?.ok ? (
