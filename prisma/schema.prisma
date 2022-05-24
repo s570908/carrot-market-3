@@ -21,6 +21,7 @@ model User {
   created DateTime @default(now())
   updated DateTime @updatedAt
   tokens Token[]
+  products Products[]
 }
 
 model Token {
@@ -30,4 +31,16 @@ model Token {
   userId Int
   created DateTime @default(now())
   updated DateTime @updatedAt
+}
+
+model Products {
+id Int @id @default(autoincrement())
+created DateTime @default(now())
+updated DateTime @updatedAt
+user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+userId Int
+image String
+name String
+price Int
+description String @db.MediumText
 }

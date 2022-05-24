@@ -6,7 +6,7 @@ interface InputProps {
   kind?: "text" | "phone" | "price";
   type: string;
   register: UseFormRegisterReturn;
-  required: boolean;
+  placeholder?: string;
 }
 
 export default function Input({
@@ -15,7 +15,7 @@ export default function Input({
   kind = "text",
   register,
   type,
-  required,
+  placeholder,
 }: InputProps) {
   return (
     <div>
@@ -31,7 +31,6 @@ export default function Input({
             id={name}
             {...register}
             type={type}
-            required={required}
             className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
         </div>
@@ -39,14 +38,14 @@ export default function Input({
       {kind === "price" ? (
         <div className="relative flex items-center  rounded-md shadow-sm">
           <div className="pointer-events-none absolute left-0 flex items-center justify-center pl-3">
-            <span className="text-sm text-gray-500">$</span>
+            <span className="text-sm text-gray-500">￦</span>
           </div>
           <input
             id={name}
             {...register}
             type={type}
-            required={required}
-            className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pl-7 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+            placeholder={placeholder}
+            className="w-full  appearance-none rounded-md border border-gray-300 px-3 py-2 pl-7 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
           <div className="pointer-events-none absolute right-0 flex items-center pr-3">
             <span className="text-gray-500">KRW</span>
@@ -62,7 +61,6 @@ export default function Input({
             id={name}
             {...register}
             type={type}
-            required={required}
             className="w-full appearance-none rounded-md rounded-l-none border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
           />
         </div>

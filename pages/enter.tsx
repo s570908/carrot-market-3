@@ -65,11 +65,10 @@ const Enter: NextPage = () => {
             className="mt-8 flex flex-col space-y-4"
           >
             <Input
-              register={tokenRegister("token")}
+              register={tokenRegister("token", { required: true })}
               name="token"
               label="Confirmation Token"
               type="number"
-              required={true}
             />
             <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
           </form>
@@ -110,21 +109,19 @@ const Enter: NextPage = () => {
             >
               {method === "email" ? (
                 <Input
-                  register={register("email")}
+                  register={register("email", { required: true })}
                   name="email"
                   label="Email address"
                   type="email"
-                  required={true}
                 />
               ) : null}
               {method === "phone" ? (
                 <Input
-                  register={register("phone")}
+                  register={register("phone", { required: true })}
                   name="phone"
                   label="Phone number"
                   type="number"
                   kind="phone"
-                  required={true}
                 />
               ) : null}
               {method === "email" ? (
