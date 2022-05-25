@@ -5,12 +5,30 @@ import Head from "next/head";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { Products, User } from "@prisma/client";
+import useMutation from "@libs/client/useMutation";
+import { cls } from "@libs/client/utils";
+
+interface ProductWithUser extends Products {
+  user: User;
+}
+interface ItemDetailResponse {
+  ok: boolean;
+  product: ProductWithUser;
+  relatedProducts: Products[];
+  isLike: boolean;
+}
 
 const ItemDetail: NextPage = () => {
   const router = useRouter();
-  const { data } = useSWR(
+  const { data } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
+  const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  console.log(data);
+  const onFavClick = () => {
+    toggleFav({});
+  };
   return (
     <Layout title="캐럿" canGoBack>
       <Head>
@@ -44,35 +62,64 @@ const ItemDetail: NextPage = () => {
             </p>
             <div className="flex items-center justify-between space-x-2">
               <Button large text="Talk to seller" />
-              <button className="flex items-center justify-center rounded-md p-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500">
-                <svg
-                  className="h-6 w-6 "
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
-                </svg>
+              <button
+                onClick={onFavClick}
+                className={cls(
+                  data?.isLike
+                    ? " text-red-400 hover:text-red-500"
+                    : "text-gray-400 hover:text-gray-500",
+                  "flex items-center justify-center rounded-md p-3 hover:bg-gray-100 "
+                )}
+              >
+                {data?.isLike ? (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="h-6 w-6 "
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </svg>
+                )}
               </button>
             </div>
           </div>
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-gray-900">Similar items</h2>
+          <h2 className="text-2xl font-bold text-gray-900">Similar Items</h2>
           <div className="grid grid-cols-2 gap-4">
-            {[1, 2, 3, 4, 5, 6].map((_, i) => (
-              <div key={i}>
-                <div className="mt-6 mb-4 h-56 w-full bg-slate-300" />
-                <h3 className="-mb-1 text-base text-gray-700">Galaxy S60</h3>
-                <span className="text-xs font-medium text-gray-900">$6</span>
-              </div>
+            {data?.relatedProducts.map((product) => (
+              <Link href={`/products/${product.id}`}>
+                <div className="cursor-pointer" key={product.id}>
+                  <div className="mt-6 mb-4 h-56 w-full bg-slate-300" />
+                  <h3 className="-mb-1 text-base text-gray-700">
+                    {product.name}
+                  </h3>
+                  <span className="text-xs font-medium text-gray-900">
+                    ￦{product.price}
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>

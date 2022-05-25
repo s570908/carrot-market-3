@@ -8,7 +8,9 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   if (req.method === "GET") {
-    const products = await client.products.findMany({});
+    const products = await client.products.findMany({
+      orderBy: { created: "desc" },
+    });
     res.json({
       ok: true,
       products,
