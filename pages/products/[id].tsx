@@ -2,12 +2,13 @@ import type { NextPage } from "next";
 import Button from "@components/button";
 import Layout from "@components/layout";
 import Head from "next/head";
-import useSWR from "swr";
+import useSWR, { mutate, useSWRConfig } from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Products, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
+import useUser from "@libs/client/useUser";
 
 interface ProductWithUser extends Products {
   user: User;
@@ -20,13 +21,17 @@ interface ItemDetailResponse {
 }
 
 const ItemDetail: NextPage = () => {
+  const { user, isLoading } = useUser();
   const router = useRouter();
-  const { data } = useSWR<ItemDetailResponse>(
+  const { mutate: unboundMutate } = useSWRConfig();
+  const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
-  console.log(data);
   const onFavClick = () => {
+    if (!data) return;
+    boundMutate((prev) => prev && { ...prev, isLike: !prev.isLike }, false);
+    // unboundMutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
     toggleFav({});
   };
   return (
