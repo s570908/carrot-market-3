@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import client from "@libs/server/client";
 import { withApiSession } from "@libs/server/withSession";
+import { userInfo } from "os";
 
 async function handler(
   req: NextApiRequest,
@@ -13,6 +14,16 @@ async function handler(
         _count: {
           select: {
             fav: true,
+          },
+        },
+        fav: {
+          select: {
+            id: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
           },
         },
       },

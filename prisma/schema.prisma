@@ -2,57 +2,94 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["referentialIntegrity"]
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  phone String? @unique
-  email String? @unique
-  name String
-  avatar String?
-  created DateTime @default(now())
-  updated DateTime @updatedAt
-  tokens Token[]
-  products Products[]
-  fav Fav[]
+  id         Int         @id @default(autoincrement())
+  phone      String?     @unique
+  email      String?     @unique
+  name       String
+  avatar     String?
+  created    DateTime    @default(now())
+  updated    DateTime    @updatedAt
+  tokens     Token[]
+  products   Products[]
+  fav        Fav[]
+  posts      Post[]
+  answers    Answer[]
+  wonderings Wondering[]
 }
 
 model Token {
-  id Int @id @default(autoincrement())
-  payload String  @unique
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
+  id      Int      @id @default(autoincrement())
+  payload String   @unique
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
   created DateTime @default(now())
   updated DateTime @updatedAt
 }
 
 model Products {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
-  image String
-  name String
-  price Int
-  description String @db.MediumText
-  created DateTime @default(now())
-  updated DateTime @updatedAt
-  fav Fav[]
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  image       String
+  name        String
+  price       Int
+  description String   @db.MediumText
+  created     DateTime @default(now())
+  updated     DateTime @updatedAt
+  fav         Fav[]
 }
 
 model Fav {
-  id Int @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
-  product Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId Int
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model Post {
+  id         Int         @id @default(autoincrement())
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int
+  question   String      @db.MediumText
+  created    DateTime    @default(now())
+  updated    DateTime    @updatedAt
+  latitude   Float?
+  longitude  Float?
+  answer     Answer[]
+  wonderings Wondering[]
+}
+
+model Answer {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  post    Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId  Int
+  answer  String   @db.MediumText
+  created DateTime @default(now())
+  updated DateTime @updatedAt
+}
+
+model Wondering {
+  id      Int      @id @default(autoincrement())
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int
+  post    Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId  Int
   created DateTime @default(now())
   updated DateTime @updatedAt
 }

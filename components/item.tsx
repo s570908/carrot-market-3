@@ -29,11 +29,11 @@ export default function Item({
         <div className="flex items-end justify-end space-x-2">
           <div
             className={cls(
-              hearts > 0 ? "text-red-600" : "text-gray-600",
+              hearts ? "text-red-600" : "text-gray-600",
               "flex items-center space-x-0.5 text-sm"
             )}
           >
-            {hearts > 0 ? (
+            {hearts ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
