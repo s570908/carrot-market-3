@@ -4,7 +4,7 @@ import Layout from "@components/layout";
 
 const Bought: NextPage = () => {
   return (
-    <Layout title="구매내역" canGoBack>
+    <Layout title="구매내역" canGoBack backUrl={"/profile"}>
       <div className="flex flex-col space-y-5 divide-y  pb-10">
         {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((_, i) => (
           <Item

@@ -4,7 +4,7 @@ import Message from "@components/message";
 
 const StreamDetail: NextPage = () => {
   return (
-    <Layout title="live" canGoBack>
+    <Layout title="live" canGoBack backUrl={"/live"}>
       <div className="space-y-4 py-10  px-4">
         <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />
         <div className="mt-5">

@@ -7,16 +7,18 @@ interface LayoutProps {
   canGoBack?: boolean;
   hasTabBar?: boolean;
   children: React.ReactNode;
+  backUrl?: any;
 }
 export default function Layout({
   title,
   canGoBack,
   hasTabBar,
   children,
+  backUrl,
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
-    router.back();
+    router.push(backUrl);
   };
   return (
     <div>

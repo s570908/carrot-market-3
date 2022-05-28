@@ -5,6 +5,7 @@ import Layout from "@components/layout";
 import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
+import RegDate from "@components/regDate";
 
 interface PostWithUser extends Post {
   user: User;
@@ -26,6 +27,7 @@ const Community: NextPage = () => {
       ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
       : null
   );
+  const date = new Date();
   return (
     <Layout title="동네생활" hasTabBar>
       <div className="space-y-8 px-4 py-10">
@@ -41,7 +43,7 @@ const Community: NextPage = () => {
               </div>
               <div className="mt-5 flex w-full items-center justify-between px-4 text-xs font-medium text-gray-500">
                 <span>{post.user.name}</span>
-                <span>{post.created}</span>
+                <RegDate regDate={post.created} />
               </div>
               <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
                 <span className="flex items-center space-x-2 text-sm">

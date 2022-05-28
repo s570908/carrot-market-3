@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { useEffect } from "react";
+import RegDate from "@components/regDate";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -81,9 +82,8 @@ const CommunityPostDetail: NextPage = () => {
       mutate();
     }
   }, [answerData, reset]);
-
   return (
-    <Layout title="동네생활" canGoBack>
+    <Layout title="동네생활" canGoBack backUrl={"/community"}>
       <div>
         <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
           동네질문
@@ -157,9 +157,10 @@ const CommunityPostDetail: NextPage = () => {
                 <span className="block text-sm font-medium text-gray-700">
                   {ans.user.name}
                 </span>
-                <span className="block text-xs text-gray-500 ">
-                  {ans.created}
-                </span>
+                <RegDate
+                  className="text-sm font-medium text-gray-700"
+                  regDate={ans.created}
+                />
                 <p className="mt-2 text-gray-700">{ans.answer}</p>
               </div>
             </div>

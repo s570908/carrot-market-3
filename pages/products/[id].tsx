@@ -35,7 +35,7 @@ const ItemDetail: NextPage = () => {
     toggleFav({});
   };
   return (
-    <Layout title="캐럿" canGoBack>
+    <Layout title="캐럿" canGoBack backUrl={"/"}>
       <Head>
         <title>캐럿</title>
       </Head>
