@@ -5,11 +5,9 @@ import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
-import { Fav, Products, User } from "@prisma/client";
-import { useEffect, useState } from "react";
+import { Products } from "@prisma/client";
 
-interface PostWithUser extends Products {
-  fav: Fav[];
+export interface ProductWithCount extends Products {
   _count: {
     fav: number;
   };
@@ -17,7 +15,7 @@ interface PostWithUser extends Products {
 
 interface ProductsResponse {
   ok: boolean;
-  products: PostWithUser[];
+  products: ProductWithCount[];
 }
 
 const Home: NextPage = () => {

@@ -22,7 +22,20 @@ async function handler(
       userId: user?.id,
     },
     include: {
-      product: true,
+      product: {
+        include: {
+          fav: {
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              fav: true,
+            },
+          },
+        },
+      },
     },
   });
   res.json({
