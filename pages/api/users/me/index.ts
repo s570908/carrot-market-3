@@ -7,23 +7,105 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
 ) {
-  const profile = await client.user.findUnique({
-    where: { id: req.session.user?.id },
-    include: {
-      fav: {
-        select: {
-          id: true,
-          productId: true,
+  if (req.method === "GET") {
+    const profile = await client.user.findUnique({
+      where: { id: req.session.user?.id },
+      include: {
+        fav: {
+          select: {
+            id: true,
+            productId: true,
+          },
         },
       },
-    },
-  });
-  res.json({
-    ok: true,
-    profile,
-  });
+    });
+    res.json({
+      ok: true,
+      profile,
+    });
+  }
+  if (req.method === "POST") {
+    const {
+      session: { user },
+      body: { email, phone, name },
+    } = req;
+    const currentUser = await client.user.findUnique({
+      where: {
+        id: user?.id,
+      },
+    });
+    if (email && email !== currentUser?.email) {
+      const alreadyExists = Boolean(
+        await client.user.findUnique({
+          where: {
+            email,
+          },
+          select: {
+            id: true,
+          },
+        })
+      );
+      if (alreadyExists) {
+        return res.json({
+          ok: false,
+          error: "해당 이메일은 이미 존재합니다.",
+        });
+      }
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          email,
+        },
+      });
+      res.json({
+        ok: true,
+      });
+    }
+    if (phone && phone !== currentUser?.phone) {
+      const alreadyExists = Boolean(
+        await client.user.findUnique({
+          where: {
+            phone,
+          },
+          select: {
+            id: true,
+          },
+        })
+      );
+      if (alreadyExists) {
+        return res.json({
+          ok: false,
+          error: "해당 폰넘버는 이미 존재합니다.",
+        });
+      }
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          phone,
+        },
+      });
+      res.json({
+        ok: true,
+      });
+    }
+    if (name) {
+      await client.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          name,
+        },
+      });
+    }
+    res.json({ ok: true });
+  }
 }
 
 export default withApiSession(
-  withHandler({ methods: ["GET"], handler, isPrivate: true })
+  withHandler({ methods: ["GET", "POST"], handler, isPrivate: true })
 );
