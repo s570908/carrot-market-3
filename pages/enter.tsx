@@ -19,6 +19,7 @@ interface TokenForm {
 
 interface MutationResult {
   ok: boolean;
+  payload: string;
 }
 
 const Enter: NextPage = () => {
@@ -40,7 +41,6 @@ const Enter: NextPage = () => {
   };
   const onValid = (validForm: EnterForm) => {
     enter(validForm);
-    console.log(loading, data, error);
   };
   const onTokenValid = (validForm: TokenForm) => {
     if (tokenLoading) return;
@@ -69,6 +69,7 @@ const Enter: NextPage = () => {
               name="token"
               label="Confirmation Token"
               type="number"
+              value={data?.payload}
             />
             <Button text={tokenLoading ? "Loading" : "Confirm Token"} />
           </form>

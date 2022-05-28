@@ -6,8 +6,10 @@ import useUser from "@libs/client/useUser";
 import Head from "next/head";
 import useSWR from "swr";
 import { Fav, Products, User } from "@prisma/client";
+import { useEffect, useState } from "react";
 
 interface PostWithUser extends Products {
+  fav: Fav[];
   _count: {
     fav: number;
   };
@@ -34,6 +36,11 @@ const Home: NextPage = () => {
             title={product.name}
             price={product.price}
             hearts={product._count.fav}
+            isLike={product.fav
+              .map((uid) => {
+                if (uid.userId === user.id) return true;
+              })
+              .includes(true)}
           />
         ))}
 

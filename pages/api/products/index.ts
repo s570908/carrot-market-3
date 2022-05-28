@@ -18,7 +18,7 @@ async function handler(
         },
         fav: {
           select: {
-            id: true,
+            userId: true,
           },
         },
         user: {

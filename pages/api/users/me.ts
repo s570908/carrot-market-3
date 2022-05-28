@@ -13,6 +13,7 @@ async function handler(
       fav: {
         select: {
           id: true,
+          productId: true,
         },
       },
     },

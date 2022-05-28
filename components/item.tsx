@@ -7,6 +7,7 @@ interface ItemProps {
   price: number;
   comments?: number;
   hearts: number;
+  isLike?: boolean;
 }
 
 export default function Item({
@@ -15,6 +16,7 @@ export default function Item({
   comments,
   hearts,
   id,
+  isLike,
 }: ItemProps) {
   return (
     <Link href={`/products/${id}`}>
@@ -29,11 +31,11 @@ export default function Item({
         <div className="flex items-end justify-end space-x-2">
           <div
             className={cls(
-              hearts ? "text-red-600" : "text-gray-600",
+              isLike ? "text-red-600" : "text-gray-600",
               "flex items-center space-x-0.5 text-sm"
             )}
           >
-            {hearts ? (
+            {isLike ? (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
