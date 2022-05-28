@@ -13,19 +13,24 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  phone      String?     @unique
-  email      String?     @unique
-  name       String
-  avatar     String?
-  created    DateTime    @default(now())
-  updated    DateTime    @updatedAt
-  tokens     Token[]
-  products   Products[]
-  fav        Fav[]
-  posts      Post[]
-  answers    Answer[]
-  wonderings Wondering[]
+  id              Int         @id @default(autoincrement())
+  phone           String?     @unique
+  email           String?     @unique
+  name            String
+  avatar          String?
+  created         DateTime    @default(now())
+  updated         DateTime    @updatedAt
+  tokens          Token[]
+  products        Products[]
+  fav             Fav[]
+  posts           Post[]
+  answers         Answer[]
+  wonderings      Wondering[]
+  writtenReviews  Review[]    @relation(name: "writtenReviews")
+  receivedReviews Review[]    @relation(name: "receivedReviews")
+  sale            Sale[]
+  purchase        Purchase[]
+  record          Record[]
 }
 
 model Token {
@@ -38,26 +43,19 @@ model Token {
 }
 
 model Products {
-  id          Int      @id @default(autoincrement())
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id          Int        @id @default(autoincrement())
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      Int
   image       String
   name        String
   price       Int
-  description String   @db.MediumText
-  created     DateTime @default(now())
-  updated     DateTime @updatedAt
+  description String     @db.MediumText
+  created     DateTime   @default(now())
+  updated     DateTime   @updatedAt
   fav         Fav[]
-}
-
-model Fav {
-  id        Int      @id @default(autoincrement())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
-  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId Int
-  created   DateTime @default(now())
-  updated   DateTime @updatedAt
+  sale        Sale[]
+  purchase    Purchase[]
+  record      Record[]
 }
 
 model Post {
@@ -92,4 +90,63 @@ model Wondering {
   postId  Int
   created DateTime @default(now())
   updated DateTime @updatedAt
+}
+
+model Review {
+  id           Int      @id @default(autoincrement())
+  review       String   @db.MediumText
+  createBy     User     @relation(name: "writtenReviews", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createFor    User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  created      DateTime @default(now())
+  updated      DateTime @updatedAt
+  score        Int      @default(1)
+}
+
+model Sale {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model Purchase {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model Fav {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model Record {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  product   Products @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId Int
+  kind      Kind
+  created   DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+enum Kind {
+  Purchase
+  Sale
+  Fav
 }
