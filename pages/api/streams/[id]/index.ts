@@ -22,26 +22,25 @@ async function handler(
           name: true,
         },
       },
-    },
-  });
-  const messages = await client.message.findMany({
-    where: {
-      streamId: stream?.id,
-    },
-    include: {
-      user: {
+      messages: {
         select: {
           id: true,
-          name: true,
-          avatar: true,
+          message: true,
+          user: {
+            select: {
+              id: true,
+              name: true,
+              avatar: true,
+            },
+          },
+        },
+        orderBy: {
+          created: "asc",
         },
       },
     },
-    orderBy: {
-      created: "asc",
-    },
   });
-  res.json({ ok: true, stream, messages });
+  res.json({ ok: true, stream });
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

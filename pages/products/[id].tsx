@@ -23,7 +23,7 @@ interface ItemDetailResponse {
 const ItemDetail: NextPage = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
-  const { mutate: unboundMutate } = useSWRConfig();
+  // const { mutate: unboundMutate } = useSWRConfig();
   const { data, mutate: boundMutate } = useSWR<ItemDetailResponse>(
     router.query.id ? `/api/products/${router.query.id}` : null
   );

@@ -16,13 +16,15 @@ export default function Message({
   return (
     <div
       className={cls(
-        "flex  items-start",
-        reversed ? "flex-row-reverse space-x-reverse" : "space-x-2"
+        "flex items-start",
+        reversed ? "flex-row-reverse space-x-2 space-x-reverse" : "space-x-2"
       )}
     >
       <div>
         <div className="h-8 w-8 rounded-full bg-slate-400" />
-        <span className="mb-0 text-left text-xs">{name}</span>
+        <span className="m-0 -translate-y-1 text-center text-[8px]">
+          {name}
+        </span>
       </div>
       <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">
         <p>{message}</p>
