@@ -31,6 +31,8 @@ model User {
   sale            Sale[]
   purchase        Purchase[]
   record          Record[]
+  stream          Stream[]
+  message         Message[]
 }
 
 model Token {
@@ -132,6 +134,29 @@ model Fav {
   productId Int
   created   DateTime @default(now())
   updated   DateTime @updatedAt
+}
+
+model Stream {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String    @db.MediumText
+  price       Int
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId      Int
+  created     DateTime  @default(now())
+  updated     DateTime  @updatedAt
+  messages    Message[]
+}
+
+model Message {
+  id       Int      @id @default(autoincrement())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   Int
+  message  String   @db.MediumText
+  stream   Stream   @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  streamId Int
+  created  DateTime @default(now())
+  updated  DateTime @updatedAt
 }
 
 model Record {
