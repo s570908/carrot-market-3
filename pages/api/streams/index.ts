@@ -32,6 +32,8 @@ async function handler(
   if (req.method === "GET") {
     const streams = await client.stream.findMany({
       orderBy: { created: "desc" },
+      take: 10,
+      skip: 20,
     });
     res.json({
       ok: true,
