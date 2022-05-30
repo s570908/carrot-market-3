@@ -31,7 +31,7 @@ async function handler(
   }
   if (req.method === "GET") {
     const {
-      query: { latitude, longitude },
+      query: { latitude, longitude, page, limit },
     } = req;
     const parseLatitude = parseFloat(latitude.toString());
     const parseLongitude = parseFloat(longitude.toString());
@@ -61,6 +61,11 @@ async function handler(
           lte: parseLongitude + 0.01,
         },
       },
+      orderBy: {
+        id: "desc",
+      },
+      take: +limit,
+      skip: (+page - 1) * +limit,
     });
     res.json({
       ok: true,

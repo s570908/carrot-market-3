@@ -6,6 +6,9 @@ import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
 import RegDate from "@components/regDate";
+import { useRouter } from "next/router";
+import { useState } from "react";
+import PaginationButton from "@components/pagination-button";
 
 interface PostWithUser extends Post {
   user: User;
@@ -22,12 +25,22 @@ interface PostsResponse {
 
 const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
   const { data } = useSWR<PostsResponse>(
     latitude && longitude
-      ? `/api/posts?latitude=${latitude}&longitude=${longitude}`
+      ? `/api/posts?page=${page}&limit=${limit}&latitude=${latitude}&longitude=${longitude}`
       : null
   );
-  const date = new Date();
+  const onPrevBtn = (page: number) => {
+    router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
+    setPage((prev) => prev - 1);
+  };
+  const onNextBtn = (page: number) => {
+    router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
+    setPage((prev) => prev + 1);
+  };
   return (
     <Layout title="동네생활" hasTabBar>
       <div className="space-y-8 px-4 py-10">
@@ -84,6 +97,43 @@ const Community: NextPage = () => {
             </a>
           </Link>
         ))}
+        <PaginationButton onClick={onPrevBtn} direction="left" page={page}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
+            />
+          </svg>
+        </PaginationButton>
+        <PaginationButton
+          onClick={onNextBtn}
+          direction="right"
+          page={page}
+          itemLength={data?.posts.length}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
+          </svg>
+        </PaginationButton>
         <FloatingButton href="/community/write">
           <svg
             className="h-6 w-6"

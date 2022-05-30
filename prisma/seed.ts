@@ -3,12 +3,37 @@ import { PrismaClient } from "@prisma/client";
 const client = new PrismaClient();
 
 async function main() {
-  [...Array.from(Array(200).keys())].forEach(async (item) => {
-    await client.stream.create({
+  [...Array.from(Array(30).keys())].forEach(async (item) => {
+    // await client.stream.create({
+    //   data: {
+    //     name: String(item),
+    //     description: String(item),
+    //     price: item,
+    //     user: {
+    //       connect: {
+    //         id: 1,
+    //       },
+    //     },
+    //   },
+    // });
+    // await client.products.create({
+    //   data: {
+    //     image: "blabla",
+    //     name: String(item),
+    //     description: String(item),
+    //     price: item,
+    //     user: {
+    //       connect: {
+    //         id: 1,
+    //       },
+    //     },
+    //   },
+    // });
+    await client.post.create({
       data: {
-        name: String(item),
-        description: String(item),
-        price: item,
+        question: String(item),
+        latitude: 36.7809841,
+        longitude: 126.9433485,
         user: {
           connect: {
             id: 1,
@@ -16,7 +41,7 @@ async function main() {
         },
       },
     });
-    console.log(`${item}/200`);
+    console.log(`${item}/30`);
   });
 }
 

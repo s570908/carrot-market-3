@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import Layout from "@components/layout";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { Stream } from "@prisma/client";
 import useUser from "@libs/client/useUser";
 import { useState } from "react";
@@ -16,15 +16,18 @@ interface StreamsResponse {
 
 const Streams: NextPage = () => {
   const { user } = useUser();
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { data } = useSWR<StreamsResponse>(
     `/api/streams?page=${page}&limit=${limit}`
   );
-  const onPrevBtn = () => {
+  const onPrevBtn = (page: number) => {
+    router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
     setPage((prev) => prev - 1);
   };
-  const onNextBtn = () => {
+  const onNextBtn = (page: number) => {
+    router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
     setPage((prev) => prev + 1);
   };
   return (
@@ -56,7 +59,12 @@ const Streams: NextPage = () => {
             />
           </svg>
         </PaginationButton>
-        <PaginationButton onClick={onNextBtn} direction="right" page={page}>
+        <PaginationButton
+          onClick={onNextBtn}
+          direction="right"
+          page={page}
+          itemLength={data?.streams.length}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6"
