@@ -9,6 +9,7 @@ async function handler(
 ) {
   const {
     session: { user },
+    query: { page, limit },
   } = req;
   const purchases = await client.purchase.findMany({
     where: {
@@ -25,6 +26,11 @@ async function handler(
         },
       },
     },
+    orderBy: {
+      created: "desc",
+    },
+    // take: +limit,
+    // skip: (+page - 1) * +limit,
   });
   res.json({
     ok: true,

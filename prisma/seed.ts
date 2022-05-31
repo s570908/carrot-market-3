@@ -29,14 +29,28 @@ async function main() {
     //     },
     //   },
     // });
-    await client.post.create({
+    // await client.post.create({
+    //   data: {
+    //     question: String(item),
+    //     latitude: 36.7809841,
+    //     longitude: 126.9433485,
+    //     user: {
+    //       connect: {
+    //         id: 1,
+    //       },
+    //     },
+    //   },
+    // });
+    await client.purchase.create({
       data: {
-        question: String(item),
-        latitude: 36.7809841,
-        longitude: 126.9433485,
         user: {
           connect: {
             id: 1,
+          },
+        },
+        product: {
+          connect: {
+            id: item + 3,
           },
         },
       },

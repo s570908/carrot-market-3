@@ -6,7 +6,7 @@ const Bought: NextPage = () => {
   return (
     <Layout title="구매내역" canGoBack backUrl={"/profile"}>
       <div className="flex flex-col space-y-5 divide-y  pb-10">
-        <ProductList kind="sales" />
+        <ProductList kind="purchases" />
       </div>
     </Layout>
   );
