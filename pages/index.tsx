@@ -43,7 +43,7 @@ const Home: NextPage = () => {
       <Head>
         <title>Home</title>
       </Head>
-      <div className="flex flex-col space-y-5 px-4">
+      <div className="flex flex-col space-y-5 divide-y px-4">
         {data?.products?.map((product) => (
           <Item
             id={product.id}
@@ -59,7 +59,12 @@ const Home: NextPage = () => {
           />
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="left" page={page}>
+      <PaginationButton
+        onClick={onPrevBtn}
+        direction="left"
+        page={page}
+        isLoading={isLoading}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -80,6 +85,7 @@ const Home: NextPage = () => {
         direction="right"
         page={page}
         itemLength={data?.products.length}
+        isLoading={isLoading}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

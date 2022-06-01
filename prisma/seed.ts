@@ -41,7 +41,7 @@ async function main() {
     //     },
     //   },
     // });
-    await client.purchase.create({
+    await client.sale.create({
       data: {
         user: {
           connect: {

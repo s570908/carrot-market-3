@@ -29,8 +29,8 @@ async function handler(
     orderBy: {
       created: "desc",
     },
-    // take: +limit,
-    // skip: (+page - 1) * +limit,
+    take: +limit,
+    skip: (+page - 1) * +limit,
   });
   res.json({
     ok: true,

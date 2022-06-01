@@ -19,19 +19,19 @@ export default function PaginationButton({
   rest,
 }: PaginationButton) {
   return (
-    <button
+    <a
       {...rest}
       onClick={onClick}
       className={cls(
         direction === "left" || (direction === "right" && page <= 1)
           ? "bottom-40"
           : "bottom-56",
-        direction === "left" && page <= 1 ? "hidden" : "",
+        direction === "left" && page <= 1 ? "invisible" : "",
         direction === "right" && itemLength < 10 ? "hidden" : "",
         `fixed right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full  border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
       )}
     >
       {children}
-    </button>
+    </a>
   );
 }
