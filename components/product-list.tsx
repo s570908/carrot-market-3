@@ -1,6 +1,7 @@
 import Item from "@components/item";
 import PaginationButton from "@components/pagination-button";
 import useUser from "@libs/client/useUser";
+import { User } from "@prisma/client";
 import { useRouter } from "next/router";
 import { ProductWithCount } from "pages";
 import { useEffect, useState } from "react";
@@ -27,13 +28,13 @@ export default function ProductList({ kind }: ProductListProps) {
   const { data } = useSWR<ProductListResponse>(
     `/api/users/me/${kind}?&page=${page}&limit=${limit}`
   );
-  console.log(data);
+  console.log(data?.next.length);
   const onPrevBtn = () => {
-    router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
+    // router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
     setPage((prev) => prev - 1);
   };
   const onNextBtn = () => {
-    router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
+    // router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
     setPage((prev) => prev + 1);
   };
   return data ? (
@@ -54,7 +55,13 @@ export default function ProductList({ kind }: ProductListProps) {
           />
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="left" page={page}>
+      <PaginationButton
+        onClick={onPrevBtn}
+        direction="prev"
+        page={page}
+        isProfile={true}
+        itemLength={data?.next.length}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -72,9 +79,10 @@ export default function ProductList({ kind }: ProductListProps) {
       </PaginationButton>
       <PaginationButton
         onClick={onNextBtn}
-        direction="right"
+        direction="next"
         page={page}
-        itemLength={data[kind]?.length}
+        itemLength={data?.next.length}
+        isProfile={true}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

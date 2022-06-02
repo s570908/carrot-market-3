@@ -4,9 +4,10 @@ import React from "react";
 interface PaginationButton {
   children: React.ReactNode;
   rOpt?: number;
-  direction: "left" | "right";
+  direction: "prev" | "next";
   page: number;
   itemLength?: any;
+  isProfile?: boolean;
   [key: string]: any;
 }
 
@@ -17,17 +18,22 @@ export default function PaginationButton({
   itemLength,
   onClick,
   rest,
+  isProfile,
 }: PaginationButton) {
   return (
     <a
       {...rest}
       onClick={onClick}
       className={cls(
-        direction === "left" || (direction === "right" && page <= 1)
+        isProfile
+          ? direction === "next" || (direction === "prev" && itemLength < 10)
+            ? "bottom-24"
+            : "bottom-40"
+          : direction === "next" || (direction === "prev" && page <= 1)
           ? "bottom-40"
           : "bottom-56",
-        direction === "left" && page <= 1 ? "invisible" : "",
-        direction === "right" && itemLength < 10 ? "hidden" : "",
+        direction === "prev" && page <= 1 ? "invisible" : "",
+        direction === "next" && itemLength < 10 ? "hidden" : "",
         `fixed right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full  border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
       )}
     >

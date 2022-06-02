@@ -32,9 +32,31 @@ async function handler(
     take: +limit,
     skip: (+page - 1) * +limit,
   });
+  const next = await client.purchase.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      product: {
+        include: {
+          _count: {
+            select: {
+              fav: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      created: "desc",
+    },
+    take: +limit,
+    skip: (+page + 1 - 1) * +limit,
+  });
   res.json({
     ok: true,
     purchases,
+    next,
   });
 }
 

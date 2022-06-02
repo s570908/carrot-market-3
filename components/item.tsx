@@ -20,7 +20,7 @@ export default function Item({
 }: ItemProps) {
   return (
     <Link href={`/products/${id}`}>
-      <a className="justify-betweenpx-4 flex cursor-pointer pt-5">
+      <a className="flex cursor-pointer justify-between px-4 pt-5">
         <div className="flex space-x-4">
           <div className="h-20 w-20 rounded-md bg-gray-400" />
           <div className="flex flex-col pt-2">

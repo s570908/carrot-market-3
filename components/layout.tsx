@@ -18,7 +18,11 @@ export default function Layout({
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
-    router.push(backUrl);
+    if (backUrl === "back") {
+      router.back();
+    } else {
+      router.push(backUrl);
+    }
   };
   return (
     <div>

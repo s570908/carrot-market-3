@@ -61,7 +61,7 @@ const Home: NextPage = () => {
       </div>
       <PaginationButton
         onClick={onPrevBtn}
-        direction="left"
+        direction="prev"
         page={page}
         isLoading={isLoading}
       >
@@ -82,7 +82,7 @@ const Home: NextPage = () => {
       </PaginationButton>
       <PaginationButton
         onClick={onNextBtn}
-        direction="right"
+        direction="next"
         page={page}
         itemLength={data?.products.length}
         isLoading={isLoading}

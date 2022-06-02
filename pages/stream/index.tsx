@@ -32,7 +32,7 @@ const Streams: NextPage = () => {
   };
   return (
     <Layout title="라이브" hasTabBar>
-      <div className="space-y-5 divide-y-2 py-10 px-4">
+      <div className="space-y-5 divide-y-2 px-4">
         {data?.streams?.map((stream) => (
           <Link key={stream.id} href={`/stream/${stream.id}`}>
             <a className="block px-4  pt-4">
@@ -44,7 +44,7 @@ const Streams: NextPage = () => {
           </Link>
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="left" page={page}>
+      <PaginationButton onClick={onPrevBtn} direction="prev" page={page}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -62,7 +62,7 @@ const Streams: NextPage = () => {
       </PaginationButton>
       <PaginationButton
         onClick={onNextBtn}
-        direction="right"
+        direction="next"
         page={page}
         itemLength={data?.streams.length}
       >

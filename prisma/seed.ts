@@ -50,7 +50,7 @@ async function main() {
         },
         product: {
           connect: {
-            id: item + 3,
+            id: item + 1,
           },
         },
       },

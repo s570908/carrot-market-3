@@ -98,7 +98,7 @@ const Community: NextPage = () => {
           </Link>
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="left" page={page}>
+      <PaginationButton onClick={onPrevBtn} direction="prev" page={page}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -116,7 +116,7 @@ const Community: NextPage = () => {
       </PaginationButton>
       <PaginationButton
         onClick={onNextBtn}
-        direction="right"
+        direction="next"
         page={page}
         itemLength={data?.posts.length}
       >

@@ -44,9 +44,36 @@ async function handler(
     take: +limit,
     skip: (+page - 1) * +limit,
   });
+  const next = await client.sale.findMany({
+    where: {
+      userId: user?.id,
+    },
+    include: {
+      product: {
+        include: {
+          fav: {
+            select: {
+              userId: true,
+            },
+          },
+          _count: {
+            select: {
+              fav: true,
+            },
+          },
+        },
+      },
+    },
+    orderBy: {
+      created: "desc",
+    },
+    take: +limit,
+    skip: (+page + 1 - 1) * +limit,
+  });
   res.json({
     ok: true,
     sales,
+    next,
   });
 }
 
