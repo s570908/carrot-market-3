@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { ProductWithCount } from "pages";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import useSWRInfinite from "swr/infinite";
 
 interface ProductListProps {
   kind: "favs" | "sales" | "purchases";
@@ -14,35 +15,42 @@ interface ProductListProps {
 interface Record extends ProductListResponse {
   id: number;
   product: ProductWithCount;
+  pages: number;
 }
 
 interface ProductListResponse {
   [key: string]: Record[];
 }
 
+const getKey = (pageIndex: number, previousPageData: ProductListResponse) => {
+  const kind = document.location.href.split("/").pop();
+  if (pageIndex === 0) return `/api/users/me/${kind}?&page=1&limit=10`;
+  if (pageIndex + 1 > +previousPageData.pages) return null;
+  return `/api/users/me/${kind}?&page=${pageIndex + 1}&limit=10`;
+};
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default function ProductList({ kind }: ProductListProps) {
   const { user } = useUser();
-  const router = useRouter();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const { data } = useSWR<ProductListResponse>(
-    `/api/users/me/${kind}?&page=${page}&limit=${limit}`
+  // const { data } = useSWR<ProductListResponse>(
+  //   `/api/users/me/${kind}?&page=${page}&limit=${limit}`
+  // );
+  const { data, setSize, size } = useSWRInfinite<ProductListResponse>(
+    getKey,
+    fetcher
   );
-  console.log(data?.next.length);
-  const onPrevBtn = () => {
-    // router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
-    setPage((prev) => prev - 1);
-  };
+  const products = data ? data.map((item) => item[kind]).flat() : [];
+  const nextData = data ? data.map((item) => item.next) : [];
   const onNextBtn = () => {
-    // router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
-    setPage((prev) => prev + 1);
+    setSize((prev) => prev + 1);
   };
   return data ? (
     <>
       <div className="flex flex-col space-y-5 divide-y">
-        {data[kind]?.map((record) => (
+        {products?.map((record) => (
           <Item
-            id={record.product.id}
+            id={record.id}
             key={record.id}
             title={record.product.name}
             price={record.product.price}
@@ -56,32 +64,9 @@ export default function ProductList({ kind }: ProductListProps) {
         ))}
       </div>
       <PaginationButton
-        onClick={onPrevBtn}
-        direction="prev"
-        page={page}
-        isProfile={true}
-        itemLength={data?.next.length}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z"
-          />
-        </svg>
-      </PaginationButton>
-      <PaginationButton
         onClick={onNextBtn}
-        direction="next"
-        page={page}
-        itemLength={data?.next.length}
+        page={size}
+        itemLength={nextData[nextData.length - 1].length}
         isProfile={true}
       >
         <svg
@@ -95,7 +80,7 @@ export default function ProductList({ kind }: ProductListProps) {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
+            d="M15 13l-3 3m0 0l-3-3m3 3V8m0 13a9 9 0 110-18 9 9 0 010 18z"
           />
         </svg>
       </PaginationButton>

@@ -9,9 +9,9 @@ async function handler(
 ) {
   const {
     session: { user },
-    query: { page, limit },
+    query: { page },
   } = req;
-
+  const limit = 10;
   // client.record.findMany({
   //   where: {
   //     userId: user?.id,
@@ -41,8 +41,8 @@ async function handler(
     orderBy: {
       created: "desc",
     },
-    take: +limit,
-    skip: (+page - 1) * +limit,
+    take: limit,
+    skip: (+page - 1) * limit,
   });
   const next = await client.sale.findMany({
     where: {
@@ -67,8 +67,8 @@ async function handler(
     orderBy: {
       created: "desc",
     },
-    take: +limit,
-    skip: (+page + 1 - 1) * +limit,
+    take: limit,
+    skip: (+page + 1 - 1) * limit,
   });
   res.json({
     ok: true,
