@@ -1,11 +1,7 @@
 import Item from "@components/item";
 import PaginationButton from "@components/pagination-button";
 import useUser from "@libs/client/useUser";
-import { User } from "@prisma/client";
-import { useRouter } from "next/router";
 import { ProductWithCount } from "pages";
-import { useEffect, useState } from "react";
-import useSWR from "swr";
 import useSWRInfinite from "swr/infinite";
 
 interface ProductListProps {
@@ -32,10 +28,6 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function ProductList({ kind }: ProductListProps) {
   const { user } = useUser();
-  const [page, setPage] = useState(1);
-  // const { data } = useSWR<ProductListResponse>(
-  //   `/api/users/me/${kind}?&page=${page}&limit=${limit}`
-  // );
   const { data, setSize, size } = useSWRInfinite<ProductListResponse>(
     getKey,
     fetcher
