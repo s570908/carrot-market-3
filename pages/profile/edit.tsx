@@ -6,6 +6,7 @@ import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import useMutation from "@libs/client/useMutation";
+import useSWR from "swr";
 
 interface EditProfileForm {
   email?: string;
@@ -37,14 +38,27 @@ const EditProfile: NextPage = () => {
   }, [user, setValue]);
   const [editProfile, { data, loading }] =
     useMutation<EditProfileResponse>(`/api/users/me`);
-  const onValid = ({ email, phone, name, avatar }: EditProfileForm) => {
+  const onValid = async ({ email, phone, name, avatar }: EditProfileForm) => {
     if (loading) return;
     if (email === "" && phone === "" && name === "") {
       return setError("formErrors", {
         message: "뭐든 하나는 써라.",
       });
     }
-    editProfile({ email, phone, name });
+    if (avatar && avatar.length > 0 && user) {
+      const { id, uploadURL } = await (await fetch(`/api/files`)).json();
+      const form = new FormData();
+      form.append("file", avatar[0], user?.id + "");
+      fetch(uploadURL, {
+        method: "POST",
+        body: form,
+      });
+      // upload file to CF URL
+      return;
+      editProfile({ email, phone, name /*avatarUrl:CF URL*/ });
+    } else {
+      editProfile({ email, phone, name });
+    }
   };
   useEffect(() => {
     if (data && !data.ok && data.error) {
