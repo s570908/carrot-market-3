@@ -51,6 +51,7 @@ const Home: NextPage = () => {
             title={product.name}
             price={product.price}
             hearts={product._count.fav}
+            photo={product.image}
             isLike={product.fav
               .map((uid) => {
                 if (uid.userId === user?.id) return true;
@@ -86,7 +87,7 @@ const Home: NextPage = () => {
             onClick={onNextBtn}
             direction="next"
             page={page}
-            itemLength={data?.products.length}
+            itemLength={data?.products?.length}
             isLoading={isLoading}
           >
             <svg

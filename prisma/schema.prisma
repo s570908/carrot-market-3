@@ -45,19 +45,20 @@ model Token {
 }
 
 model Products {
-  id          Int        @id @default(autoincrement())
-  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId      Int
-  image       String
-  name        String
-  price       Int
-  description String     @db.MediumText
-  created     DateTime   @default(now())
-  updated     DateTime   @updatedAt
-  fav         Fav[]
-  sale        Sale[]
-  purchase    Purchase[]
-  record      Record[]
+  id             Int        @id @default(autoincrement())
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
+  image          String
+  name           String
+  price          Int
+  description    String     @db.MediumText
+  created        DateTime   @default(now())
+  updated        DateTime   @updatedAt
+  fav            Fav[]
+  sale           Sale[]
+  purchase       Purchase[]
+  record         Record[]
+  productReviews Review[]   @relation(name: "productReviews")
 }
 
 model Post {
@@ -101,6 +102,8 @@ model Review {
   createdById  Int
   createFor    User     @relation(name: "receivedReviews", fields: [createdForId], references: [id], onDelete: Cascade)
   createdForId Int
+  productFor   Products @relation(name: "productReviews", fields: [productForId], references: [id], onDelete: Cascade)
+  productForId Int      @default(1)
   created      DateTime @default(now())
   updated      DateTime @updatedAt
   score        Int      @default(1)

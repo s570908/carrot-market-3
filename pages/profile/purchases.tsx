@@ -4,7 +4,13 @@ import ProductList from "@components/product-list";
 
 const Bought: NextPage = () => {
   return (
-    <Layout title="구매내역" canGoBack backUrl={"/profile"} isProfile={true}>
+    <Layout
+      head="구매내역"
+      title="구매내역"
+      canGoBack
+      backUrl={"/profile"}
+      isProfile={true}
+    >
       <ProductList kind="purchases" />
     </Layout>
   );

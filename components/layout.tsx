@@ -2,6 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
+import Head from "next/head";
 interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
@@ -9,6 +10,7 @@ interface LayoutProps {
   children: React.ReactNode;
   backUrl?: any;
   isProfile?: boolean;
+  head: string;
 }
 export default function Layout({
   title,
@@ -16,7 +18,7 @@ export default function Layout({
   hasTabBar,
   children,
   backUrl,
-  isProfile,
+  head,
 }: LayoutProps) {
   const router = useRouter();
   const onClick = () => {
@@ -28,6 +30,9 @@ export default function Layout({
   };
   return (
     <div>
+      <Head>
+        <title>{head}</title>
+      </Head>
       <div className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center  border-b bg-white px-10 text-lg  font-medium text-gray-800">
         {canGoBack ? (
           <button onClick={onClick} className="absolute left-4">

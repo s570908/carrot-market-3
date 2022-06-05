@@ -83,19 +83,22 @@ const CommunityPostDetail: NextPage = () => {
     }
   }, [answerData, reset]);
   return (
-    <Layout title="동네생활" canGoBack backUrl={"/community"}>
+    <Layout head="동네생활" title="동네생활" canGoBack backUrl={"/community"}>
       <div>
         <span className="my-3 ml-4 inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
           동네질문
         </span>
-        <div className="mb-3 flex cursor-pointer items-center space-x-3  border-b px-4 pb-3">
-          <div className="h-10 w-10 rounded-full bg-slate-300" />
+        <div className="mb-3 flex items-center space-x-3  border-b px-4 pb-3">
+          <img
+            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
+            className="h-10 w-10 rounded-full bg-slate-300"
+          />
           <div>
             <p className="text-sm font-medium text-gray-700">
               {data?.post?.user.name}
             </p>
             <Link href={`/profile/${data?.post?.user.id}`}>
-              <a className="text-xs font-medium text-gray-500">
+              <a className="cursor-pointer text-xs font-medium text-gray-500">
                 View profile &rarr;
               </a>
             </Link>

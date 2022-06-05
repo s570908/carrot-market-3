@@ -49,7 +49,7 @@ const Enter: NextPage = () => {
   const router = useRouter();
   useEffect(() => {
     if (tokenData?.ok) {
-      router.push("/");
+      router.replace("/");
     }
   }, [tokenData, router]);
   return (

@@ -35,21 +35,22 @@ const ItemDetail: NextPage = () => {
     toggleFav({});
   };
   return (
-    <Layout title="캐럿" canGoBack backUrl={"back"}>
-      <Head>
-        <title>캐럿</title>
-      </Head>
+    <Layout head="캐럿" title="캐럿" canGoBack backUrl={"back"}>
       <div className="px-4 py-4">
         <div className="mb-8">
           <img
-            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product.image}/public`}
-            className="h-96 bg-slate-300"
+            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
+            className="mx-auto my-0 h-96 bg-slate-300"
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
-            <img
-              src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
-              className="h-12 w-12 rounded-full bg-slate-300"
-            />
+            {user?.avatar ? (
+              <img
+                src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
+                className="h-12 w-12 rounded-full bg-slate-300"
+              />
+            ) : (
+              <div className="h-12 w-12 rounded-full bg-slate-300" />
+            )}
             <div>
               <p className="text-sm font-medium text-gray-700">
                 {data ? data?.product?.user?.name : "Now Loading..."}
@@ -120,9 +121,12 @@ const ItemDetail: NextPage = () => {
           <h2 className="text-2xl font-bold text-gray-900">Similar Items</h2>
           <div className="grid grid-cols-2 gap-4">
             {data?.relatedProducts.map((product) => (
-              <Link href={`/products/${product.id}`}>
-                <div className="cursor-pointer" key={product.id}>
-                  <div className="mt-6 mb-4 h-56 w-full bg-slate-300" />
+              <Link href={`/products/${product.id}`} key={product.id}>
+                <div className="cursor-pointer">
+                  <img
+                    src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${product?.image}/public`}
+                    className="mt-6 mb-4 h-56 w-full bg-slate-300"
+                  />
                   <h3 className="-mb-1 text-base text-gray-700">
                     {product.name}
                   </h3>

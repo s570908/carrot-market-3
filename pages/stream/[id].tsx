@@ -64,7 +64,12 @@ const StreamDetail: NextPage = () => {
     sendMessage(form);
   };
   return (
-    <Layout title="live" canGoBack backUrl={"/stream"}>
+    <Layout
+      head={`${data?.stream.name} || 라이브`}
+      title={`${data?.stream.user.name}의 라이브`}
+      canGoBack
+      backUrl={"/stream"}
+    >
       <div className="space-y-4 py-10  px-4">
         <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />
         <div className="mt-5">

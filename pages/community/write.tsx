@@ -34,7 +34,7 @@ const Write: NextPage = () => {
     }
   }, [data]);
   return (
-    <Layout canGoBack title="포스팅" backUrl={"/community"}>
+    <Layout head="포스팅" canGoBack title="포스팅" backUrl={"/community"}>
       <form className="px-4 py-10" onSubmit={handleSubmit(onValid)}>
         <TextArea
           register={register("question", { required: true, minLength: 5 })}

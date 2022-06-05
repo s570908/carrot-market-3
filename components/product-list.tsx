@@ -47,6 +47,7 @@ export default function ProductList({ kind }: ProductListProps) {
             title={record.product.name}
             price={record.product.price}
             hearts={record.product._count.fav}
+            photo={record.product.image}
             isLike={record.product.fav
               ?.map((uid) => {
                 if (uid.userId === user?.id) return true;
