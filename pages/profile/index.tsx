@@ -5,6 +5,7 @@ import useUser from "@libs/client/useUser";
 import useSWR from "swr";
 import { Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
+import ImgComponent from "@components/img-component";
 
 interface ReviewWithUser extends Review {
   createBy: User;
@@ -22,9 +23,11 @@ const Profile: NextPage = () => {
       <div className="px-4">
         <div className="mt-4 flex items-center space-x-3">
           {user?.avatar ? (
-            <img
-              src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${user?.avatar}/avatar`}
-              className="h-12 w-12 rounded-full bg-slate-500"
+            <ImgComponent
+              imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${user?.avatar}/avatar`}
+              width={48}
+              height={48}
+              clsProps="rounded-full"
             />
           ) : (
             <div className="h-12 w-12 rounded-full bg-slate-500" />
@@ -112,9 +115,11 @@ const Profile: NextPage = () => {
             <div key={review.id} className="mt-12">
               <div className="flex items-center space-x-4">
                 {review.createBy.avatar ? (
-                  <img
-                    src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy.avatar}/avatar`}
-                    className="h-12 w-12 rounded-full bg-slate-500"
+                  <ImgComponent
+                    imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy.avatar}/avatar`}
+                    width={48}
+                    height={48}
+                    clsProps="rounded-full"
                   />
                 ) : (
                   <div className="h-12 w-12 rounded-full bg-slate-500" />

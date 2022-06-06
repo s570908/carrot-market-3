@@ -8,8 +8,9 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import RegDate from "@components/regDate";
+import ImgComponent from "@components/img-component";
 
 interface AnswerWithUser extends Answer {
   user: User;
@@ -42,8 +43,9 @@ interface AnswerResponse {
 const CommunityPostDetail: NextPage = () => {
   const { register, handleSubmit, reset } = useForm<AnswerForm>();
   const router = useRouter();
+  const [page, setPage] = useState(1);
   const { data, mutate } = useSWR<CommunityPostResponse>(
-    router.query.id ? `/api/posts/${router.query.id}` : null
+    router.query.id ? `/api/posts/${router.query.id}?page=${page}` : null
   );
   const [wonder, { loading }] = useMutation(
     `/api/posts/${router.query.id}/wonder`
@@ -89,9 +91,11 @@ const CommunityPostDetail: NextPage = () => {
           동네질문
         </span>
         <div className="mb-3 flex items-center space-x-3  border-b px-4 pb-3">
-          <img
-            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
-            className="h-10 w-10 rounded-full bg-slate-300"
+          <ImgComponent
+            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
+            width={40}
+            height={40}
+            clsProps="rounded-full"
           />
           <div>
             <p className="text-sm font-medium text-gray-700">
@@ -155,7 +159,16 @@ const CommunityPostDetail: NextPage = () => {
         <div className="my-5 space-y-5 px-4">
           {data?.post?.answer?.map((ans) => (
             <div key={ans.id} className="flex items-start space-x-3">
-              <div className="h-8 w-8 rounded-full bg-slate-200" />
+              {ans.user.avatar ? (
+                <ImgComponent
+                  imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
+                  width={32}
+                  height={32}
+                  clsProps="rounded-full"
+                />
+              ) : (
+                <div className="h-8 w-8 rounded-full bg-slate-200" />
+              )}
               <div>
                 <span className="block text-sm font-medium text-gray-700">
                   {ans.user.name}

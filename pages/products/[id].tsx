@@ -9,6 +9,8 @@ import { Products, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import useUser from "@libs/client/useUser";
+import Image from "next/image";
+import ImgComponent from "@components/img-component";
 
 interface ProductWithUser extends Products {
   user: User;
@@ -41,15 +43,19 @@ const ItemDetail: NextPage = () => {
     <Layout head="캐럿" title="캐럿" canGoBack backUrl={"back"}>
       <div className="px-4 py-4">
         <div className="mb-8">
-          <img
-            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
-            className="mx-auto my-0 h-96 bg-slate-300"
+          <ImgComponent
+            isLayout={true}
+            layoutHeight="h-96"
+            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
+            clsProps="object-scale-down"
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
             {data?.product?.user?.avatar ? (
-              <img
-                src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
-                className="h-12 w-12 rounded-full bg-slate-300"
+              <ImgComponent
+                imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
+                width={48}
+                height={48}
+                clsProps="rounded-full"
               />
             ) : (
               <div className="h-12 w-12 rounded-full bg-slate-300" />
@@ -126,9 +132,11 @@ const ItemDetail: NextPage = () => {
             {data?.relatedProducts.map((product) => (
               <Link href={`/products/${product.id}`} key={product.id}>
                 <div className="cursor-pointer">
-                  <img
-                    src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${product?.image}/public`}
-                    className="mt-6 mb-4 h-56 w-full bg-slate-300"
+                  <ImgComponent
+                    imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${product?.image}/public`}
+                    isLayout={true}
+                    layoutHeight="h-56"
+                    clsProps="mt-6 mb-4 bg-slate-300"
                   />
                   <h3 className="-mb-1 text-base text-gray-700">
                     {product.name}

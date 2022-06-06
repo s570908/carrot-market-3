@@ -96,6 +96,7 @@ const StreamDetail: NextPage = () => {
                 key={message.id}
                 name={message.user.name}
                 message={message.message}
+                avatar={message.user.avatar}
               />
             ))}
           </div>

@@ -33,12 +33,10 @@ const Community: NextPage = () => {
       ? `/api/posts?page=${page}&limit=${limit}&latitude=${latitude}&longitude=${longitude}`
       : null
   );
-  const onPrevBtn = (page: number) => {
-    router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
+  const onPrevBtn = () => {
     setPage((prev) => prev - 1);
   };
-  const onNextBtn = (page: number) => {
-    router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
+  const onNextBtn = () => {
     setPage((prev) => prev + 1);
   };
   return (

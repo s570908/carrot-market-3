@@ -8,9 +8,10 @@ async function handler(
   res: NextApiResponse<ResponseType>
 ) {
   const {
-    query: { id },
+    query: { id, page },
     session: { user },
   } = req;
+  const limit = 10;
   const post = await client.post.findUnique({
     where: {
       id: +id.toString(),
@@ -36,8 +37,8 @@ async function handler(
             },
           },
         },
-        take: 10,
-        skip: 20,
+        take: limit,
+        skip: (+page - 1) * limit,
       },
       _count: {
         select: {

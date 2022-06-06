@@ -3,12 +3,13 @@ import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import Head from "next/head";
 import useSWR from "swr";
 import { Fav, Products } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import PaginationButton from "@components/pagination-button";
+import Image from "next/image";
+import books from "../public/books.png";
 
 export interface ProductWithCount extends Products {
   fav: Fav[];
@@ -39,10 +40,7 @@ const Home: NextPage = () => {
     setPage((prev) => prev + 1);
   };
   return (
-    <Layout title="홈" hasTabBar>
-      <Head>
-        <title>Home</title>
-      </Head>
+    <Layout head="Home" title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y px-4">
         {data?.products?.map((product) => (
           <Item

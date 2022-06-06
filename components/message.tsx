@@ -1,10 +1,12 @@
 import { cls } from "@libs/client/utils";
+import ImgComponent from "@components/img-component";
 
 interface MessageProps {
   message: string;
   reversed?: boolean;
   avatarUrl?: string;
   name: string;
+  avatar:string;
 }
 
 export default function Message({
@@ -12,6 +14,7 @@ export default function Message({
   avatarUrl,
   reversed,
   name,
+  avatar,
 }: MessageProps) {
   return (
     <div
@@ -21,7 +24,12 @@ export default function Message({
       )}
     >
       <div>
-        <div className="h-8 w-8 rounded-full bg-slate-400" />
+        {avatar ?  <ImgComponent
+            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${avatar}/avatar`}
+            width={32}
+            height={32}
+            clsProps="rounded-full"
+          /> : <div className="h-8 w-8 rounded-full bg-slate-400" />}
         <span className="m-0 -translate-y-1 text-center text-[8px]">
           {name}
         </span>

@@ -1,3 +1,4 @@
+import ImgComponent from "@components/img-component";
 import { cls } from "@libs/client/utils";
 import Link from "next/link";
 
@@ -24,9 +25,11 @@ export default function Item({
     <Link href={`/products/${id}`}>
       <a className="flex cursor-pointer justify-between px-4 pt-5">
         <div className="flex space-x-4">
-          <img
-            src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${photo}/product`}
-            className="h-20 w-20 rounded-md bg-gray-400"
+          <ImgComponent
+            width={80}
+            height={80}
+            clsProps="rounded-md bg-gray-400"
+            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${photo}/product`}
           />
           <div className="flex flex-col pt-2">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>
