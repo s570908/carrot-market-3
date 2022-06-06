@@ -2,6 +2,6 @@
 
 **노마드 코더** 캐럿 마켓 클론 코딩 수강 중
 
-## 진행도
+## Stack
 
-- [x] Next.js app Setup **22.04.18**
+`Next.js` `TailwindCSS` `PlanetScale` `Prisma` `Twilio` `Cloudflare`

@@ -34,6 +34,9 @@ const ItemDetail: NextPage = () => {
     // unboundMutate("/api/users/me", (prev: any) => ({ ok: !prev.ok }), false);
     toggleFav({});
   };
+  const onChatClick = () => {
+    router.push(`/chats/${data?.product.userId}`);
+  };
   return (
     <Layout head="캐럿" title="캐럿" canGoBack backUrl={"back"}>
       <div className="px-4 py-4">
@@ -43,7 +46,7 @@ const ItemDetail: NextPage = () => {
             className="mx-auto my-0 h-96 bg-slate-300"
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
-            {user?.avatar ? (
+            {data?.product?.user?.avatar ? (
               <img
                 src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
                 className="h-12 w-12 rounded-full bg-slate-300"
@@ -73,7 +76,7 @@ const ItemDetail: NextPage = () => {
               {data ? data?.product?.description : "Now Loading..."}
             </p>
             <div className="flex items-center justify-between space-x-2">
-              <Button large text="Talk to seller" />
+              <Button onClick={onChatClick} large text="Talk to seller" />
               <button
                 onClick={onFavClick}
                 className={cls(

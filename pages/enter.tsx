@@ -7,6 +7,7 @@ import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import useUser from "@libs/client/useUser";
 
 interface EnterForm {
   email?: string;
@@ -23,6 +24,7 @@ interface MutationResult {
 }
 
 const Enter: NextPage = () => {
+  const { user } = useUser();
   const [enter, { loading, data, error }] =
     useMutation<MutationResult>("/api/users/enter");
   const [confirmToken, { loading: tokenLoading, data: tokenData }] =
@@ -48,10 +50,10 @@ const Enter: NextPage = () => {
   };
   const router = useRouter();
   useEffect(() => {
-    if (tokenData?.ok) {
+    if (tokenData?.ok || user) {
       router.replace("/");
     }
-  }, [tokenData, router]);
+  }, [tokenData, router, user]);
   return (
     <div className="mt-16 px-4">
       <Head>
