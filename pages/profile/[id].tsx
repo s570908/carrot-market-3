@@ -7,6 +7,7 @@ import Button from "@components/button";
 import { Products, Review, User } from "@prisma/client";
 import { cls } from "@libs/client/utils";
 import Link from "next/link";
+import ImgComponent from "@components/img-component";
 
 interface ProductScore extends Products {
   productReviews: Review[];
@@ -31,6 +32,9 @@ const Profile: NextPage = () => {
   const { data } = useSWR<ProfileResponse>(
     router.query.id ? `/api/users/other/${router.query.id}` : null
   );
+  const onChatClick = () => {
+    router.push(`/chats/${data?.other.id}`);
+  };
   return (
     <Layout
       head={`${data?.other.name} || 프로필`}
@@ -42,9 +46,11 @@ const Profile: NextPage = () => {
       <div className="space-y-4 px-4 py-4">
         <div className="mt-4 flex items-center space-x-3">
           {data?.other.avatar ? (
-            <img
-              src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.other.avatar}/avatar`}
-              className="h-12 w-12 rounded-full bg-slate-500"
+            <ImgComponent
+              width={48}
+              height={48}
+              clsProps="rounded-md bg-gray-400"
+              imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.other.avatar}/avatar`}
             />
           ) : (
             <div className="h-12 w-12 rounded-full bg-slate-500" />
@@ -55,13 +61,15 @@ const Profile: NextPage = () => {
             </span>
           </div>
         </div>
-        <Button large text="Talk to seller" />
+        <Button onClick={onChatClick} large text="Talk to seller" />
         {data?.other.sale.map((item, idx) => (
           <Link key={idx} href={`/products/${item.product.id}`}>
             <a className="flex cursor-pointer space-x-4">
-              <img
-                src={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${item.product.image}/product`}
-                className="h-20 w-20 rounded-md bg-gray-400"
+              <ImgComponent
+                width={80}
+                height={80}
+                clsProps="rounded-md bg-gray-400"
+                imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${item.product.image}/product`}
               />
               <div className="flex flex-col pt-2">
                 <h3 className="text-sm font-medium text-gray-900">

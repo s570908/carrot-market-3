@@ -7,6 +7,7 @@ import { Stream, User } from "@prisma/client";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
+import { useEffect } from "react";
 
 interface StreamMessage {
   message: string;
@@ -71,7 +72,16 @@ const StreamDetail: NextPage = () => {
       backUrl={"/stream"}
     >
       <div className="space-y-4 py-10  px-4">
-        <div className="aspect-video w-full rounded-md bg-slate-300 shadow-sm" />
+        <div className="bg-slate-300">
+          {data?.stream.cloudflareId ? (
+            <iframe
+              className="aspect-video w-full rounded-md shadow-sm"
+              src={`https://iframe.videodelivery.net/${data?.stream.cloudflareId}}`}
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen={true}
+            ></iframe>
+          ) : null}
+        </div>
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">
             {data?.stream.name}
@@ -86,6 +96,19 @@ const StreamDetail: NextPage = () => {
             </span>
           </div>
           <p className=" my-6 text-gray-700">{data?.stream.description}</p>
+          {user?.id === data?.stream.userId ? (
+            <div className="flex flex-col space-y-3 overflow-x-scroll rounded-md bg-orange-300 p-5">
+              <span className="font-medium">Stream Keys (secret)</span>
+              <span className="text-gray-600">
+                <span className="font-medium text-gray-900">URL:</span>
+                {data?.stream.cloudflareUrl}
+              </span>
+              <span className="text-gray-600">
+                <span className="font-medium text-gray-900">Key:</span>
+                {data?.stream.cloudflareKey}
+              </span>
+            </div>
+          ) : null}
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
