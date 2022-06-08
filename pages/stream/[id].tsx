@@ -80,7 +80,9 @@ const StreamDetail: NextPage = () => {
               allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
               allowFullScreen={true}
             ></iframe>
-          ) : null}
+          ) : (
+            <div className="bg-slate-300" />
+          )}
         </div>
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">

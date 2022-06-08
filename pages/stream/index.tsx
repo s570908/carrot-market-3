@@ -5,7 +5,7 @@ import Layout from "@components/layout";
 import useSWR, { mutate } from "swr";
 import { Stream } from "@prisma/client";
 import useUser from "@libs/client/useUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PaginationButton from "@components/pagination-button";
 import Image from "next/image";
@@ -13,6 +13,7 @@ import Image from "next/image";
 interface StreamsResponse {
   ok: boolean;
   streams: Stream[];
+  result: [];
 }
 
 const Streams: NextPage = () => {
