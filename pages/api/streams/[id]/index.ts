@@ -40,6 +40,28 @@ async function handler(
       },
     },
   });
+  const { result } = await (
+    await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/stream/live_inputs/${stream?.cloudflareId}/videos`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.CF_STREAM_TOKEN}`,
+        },
+      }
+    )
+  ).json();
+  if (result) {
+    await client.stream.update({
+      where: {
+        id: +id.toString(),
+      },
+      data: {
+        replayVideoId: result[0].uid,
+      },
+    });
+  }
   const isOwner = stream?.userId === user?.id;
   if (stream && !isOwner) {
     stream.cloudflareKey = "xxxxx";

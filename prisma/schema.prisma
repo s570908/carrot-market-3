@@ -152,6 +152,7 @@ model Stream {
   cloudflareId  String    @default("a")
   cloudflareUrl String    @default("a")
   cloudflareKey String    @default("a")
+  replayVideoId String    @default("a")
 }
 
 model Message {

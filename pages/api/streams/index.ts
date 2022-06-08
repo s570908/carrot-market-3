@@ -52,18 +52,6 @@ async function handler(
     });
   }
   if (req.method === "GET") {
-    // const { result } = await (
-    //   await fetch(
-    //     `https://api.cloudflare.com/client/v4/accounts/${process.env.CF_ID}/stream`,
-    //     {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${process.env.CF_STREAM_TOKEN}`,
-    //       },
-    //     }
-    //   )
-    // ).json();
     const streams = await client.stream.findMany({
       orderBy: {
         id: "desc",
