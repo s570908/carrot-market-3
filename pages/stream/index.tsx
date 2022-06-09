@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import PaginationButton from "@components/pagination-button";
 import Image from "next/image";
+import { cls } from "@libs/client/utils";
 
 interface StreamsResponse {
   ok: boolean;
@@ -22,7 +23,8 @@ const Streams: NextPage = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { data } = useSWR<StreamsResponse>(
-    `/api/streams?page=${page}&limit=${limit}`
+    `/api/streams?page=${page}&limit=${limit}`,
+    { refreshInterval: 1000 }
   );
   const onPrevBtn = (page: number) => {
     router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
@@ -39,14 +41,42 @@ const Streams: NextPage = () => {
           <Link key={stream.id} href={`/stream/${stream.id}`}>
             <a className="block px-4  pt-4">
               <div className="relative aspect-video w-full overflow-hidden rounded-md bg-slate-300 shadow-sm">
-                <Image
-                  layout="fill"
-                  src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?height=320`}
-                />
+                {stream.live ? (
+                  <Image
+                    layout="fill"
+                    src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?height=320`}
+                  />
+                ) : (
+                  <Image
+                    layout="fill"
+                    src={`https://videodelivery.net/${stream.replayVideoId}/thumbnails/thumbnail.jpg`}
+                  />
+                )}
               </div>
-              <h1 className="mt-2 text-2xl font-bold text-gray-900">
-                {stream.name}
-              </h1>
+              <div className="flex flex-row items-center justify-evenly space-x-32">
+                <h1 className="mt-2 text-2xl font-bold text-gray-900">
+                  {stream.name}
+                </h1>
+                <div>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={cls(
+                      stream.live ? "text-red-500" : "text-gray-500",
+                      "h-6 w-6"
+                    )}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"
+                    />
+                  </svg>
+                </div>
+              </div>
             </a>
           </Link>
         ))}

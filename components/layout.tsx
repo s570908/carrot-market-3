@@ -56,7 +56,9 @@ export default function Layout({
           <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
         ) : null}
       </div>
-      <div className={cls("pt-12 pb-24 sm:pb-0")}>{children}</div>
+      <div className={cls("pt-12 sm:pb-0", hasTabBar ? "pb-24" : "")}>
+        {children}
+      </div>
       {hasTabBar ? (
         <nav className="fixed bottom-0 flex w-full max-w-xl justify-between border-t bg-white px-10 pb-5 pt-3 text-xs text-gray-700">
           <Link href="/">

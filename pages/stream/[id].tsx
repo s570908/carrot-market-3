@@ -7,7 +7,8 @@ import { Stream, User } from "@prisma/client";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { cls } from "@libs/client/utils";
 
 interface StreamMessage {
   message: string;
@@ -64,6 +65,10 @@ const StreamDetail: NextPage = () => {
     );
     sendMessage(form);
   };
+  useEffect(() => {
+    const msgBox = document.querySelector("#msg");
+    msgBox.scrollTop = msgBox.scrollHeight;
+  }, [sendMessageData]);
   return (
     <Layout
       head={`${data?.stream.name} || 라이브`}
@@ -72,8 +77,8 @@ const StreamDetail: NextPage = () => {
       backUrl={"/stream"}
     >
       <div className="space-y-4 py-10  px-4">
-        <div className="bg-slate-300">
-          {data?.stream.cloudflareId ? (
+        <div className="relative bg-slate-300">
+          {data?.live ? (
             <iframe
               className="aspect-video w-full rounded-md shadow-sm"
               src={`https://iframe.videodelivery.net/${data?.stream.cloudflareId}}`}
@@ -81,8 +86,32 @@ const StreamDetail: NextPage = () => {
               allowFullScreen={true}
             ></iframe>
           ) : (
-            <div className="bg-slate-300" />
+            <iframe
+              className="aspect-video w-full rounded-md shadow-sm"
+              src={`https://iframe.videodelivery.net/${data?.stream.replayVideoId}}`}
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen={true}
+            ></iframe>
           )}
+          <div className="absolute top-0 right-1">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={cls(
+                data?.live ? "text-red-500" : "text-gray-500",
+                "h-6 w-6"
+              )}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M5.636 18.364a9 9 0 010-12.728m12.728 0a9 9 0 010 12.728m-9.9-2.829a5 5 0 010-7.07m7.072 0a5 5 0 010 7.07M13 12a1 1 0 11-2 0 1 1 0 012 0z"
+              />
+            </svg>
+          </div>
         </div>
         <div className="mt-5">
           <h1 className="text-3xl font-bold text-gray-900">
@@ -114,7 +143,10 @@ const StreamDetail: NextPage = () => {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
-          <div className="h-[50vh] space-y-4 overflow-y-scroll py-10  px-4 pb-16">
+          <div
+            id="msg"
+            className="h-[50vh] space-y-2 overflow-y-scroll py-8  px-4"
+          >
             {data?.stream.messages?.map((message) => (
               <Message
                 reversed={message.user.id === user?.id}
@@ -125,7 +157,7 @@ const StreamDetail: NextPage = () => {
               />
             ))}
           </div>
-          <div className="fixed inset-x-0 bottom-0  bg-white py-2">
+          <div className="fixed inset-x-0 bottom-0 bg-white py-2">
             <form
               onSubmit={handleSubmit(onValid)}
               className="relative mx-auto flex w-full  max-w-md items-center"

@@ -54,10 +54,32 @@ async function handler(
   if (req.method === "GET") {
     const streams = await client.stream.findMany({
       orderBy: {
-        id: "desc",
+        created: "desc",
       },
       take: +limit,
       skip: (+page - 1) * +limit,
+    });
+    streams.map(async (stream) => {
+      const { live } = await (
+        await fetch(
+          `https://videodelivery.net/${stream.cloudflareId}/lifecycle`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.CF_STREAM_TOKEN}`,
+            },
+          }
+        )
+      ).json();
+      await client.stream.update({
+        where: {
+          id: stream.id,
+        },
+        data: {
+          live,
+        },
+      });
     });
     res.json({
       ok: true,

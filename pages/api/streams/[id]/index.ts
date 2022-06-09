@@ -52,6 +52,15 @@ async function handler(
       }
     )
   ).json();
+  const { live } = await (
+    await fetch(`https://videodelivery.net/${stream.cloudflareId}/lifecycle`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.CF_STREAM_TOKEN}`,
+      },
+    })
+  ).json();
   if (result) {
     await client.stream.update({
       where: {
@@ -67,7 +76,7 @@ async function handler(
     stream.cloudflareKey = "xxxxx";
     stream.cloudflareUrl = "xxxxx";
   }
-  res.json({ ok: true, stream });
+  res.json({ ok: true, stream, live });
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

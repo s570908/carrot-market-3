@@ -153,6 +153,7 @@ model Stream {
   cloudflareUrl String    @default("a")
   cloudflareKey String    @default("a")
   replayVideoId String    @default("a")
+  live          Boolean   @default(false)
 }
 
 model Message {
