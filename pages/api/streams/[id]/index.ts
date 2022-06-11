@@ -53,7 +53,7 @@ async function handler(
     )
   ).json();
   const { live } = await (
-    await fetch(`https://videodelivery.net/${stream.cloudflareId}/lifecycle`, {
+    await fetch(`https://videodelivery.net/${stream?.cloudflareId}/lifecycle`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

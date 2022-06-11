@@ -2,14 +2,13 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import { useRouter } from "next/router";
 import useSWR from "swr";
-import { ChatRoom } from "@prisma/client";
 import ImgComponent from "@components/img-component";
 
+interface ChatRoomWithProps extends ChatRoomResponse {}
 interface ChatRoomResponse {
   ok: boolean;
-  chatRoomList: ChatRoom[];
+  chatRoomList: ChatRoomWithProps[];
 }
 
 const Chats: NextPage = () => {
@@ -19,12 +18,12 @@ const Chats: NextPage = () => {
     <Layout head="채팅" title="채팅" hasTabBar>
       <div className="divide-y-[1px] py-10">
         {data?.chatRoomList.map((chatRoom) => (
-          <Link href={`/chats/${chatRoom.createdForId}`} key={chatRoom.id}>
+          <Link href={`/chats/${chatRoom.id}`} key={chatRoom.id}>
             <a className="flex cursor-pointer items-center space-x-3 px-4 py-3">
-              {chatRoom.createdById === user?.id ? (
-                chatRoom.createFor.avatar ? (
+              {chatRoom.user1 === user?.id ? (
+                chatRoom.user2.avatar ? (
                   <ImgComponent
-                    imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${chatRoom.createFor.avatar}/avatar`}
+                    imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${chatRoom.user2.avatar}/avatar`}
                     width={48}
                     height={48}
                     clsProps="rounded-full"
@@ -32,9 +31,9 @@ const Chats: NextPage = () => {
                 ) : (
                   <div className="h-12 w-12 rounded-full bg-slate-500" />
                 )
-              ) : chatRoom.createBy.avatar ? (
+              ) : chatRoom.user1.avatar ? (
                 <ImgComponent
-                  imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${chatRoom.createBy.avatar}/avatar`}
+                  imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${chatRoom.user1.avatar}/avatar`}
                   width={48}
                   height={48}
                   clsProps="rounded-full"
@@ -44,9 +43,9 @@ const Chats: NextPage = () => {
               )}
               <div>
                 <p className="text-gray-700">
-                  {chatRoom.createdById === user?.id
-                    ? chatRoom.createFor.name
-                    : chatRoom.createBy.name}
+                  {chatRoom.user1 === user?.id
+                    ? chatRoom.user2.name
+                    : chatRoom.user1.name}
                 </p>
                 <p className="text-sm  text-gray-500">
                   {chatRoom.recentMsg.chatMsg}

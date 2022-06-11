@@ -1,11 +1,13 @@
 import { cls } from "@libs/client/utils";
 import ImgComponent from "@components/img-component";
+import RegDate from "@components/regDate";
 
 interface MessageProps {
   message: string;
   reversed?: boolean;
   name: string;
   avatar?: string;
+  date?: any;
 }
 
 export default function Message({
@@ -13,6 +15,7 @@ export default function Message({
   reversed,
   name,
   avatar,
+  date,
 }: MessageProps) {
   return (
     <div
@@ -39,6 +42,7 @@ export default function Message({
       <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">
         <p>{message}</p>
       </div>
+      {date && <RegDate className="translate-y-5 text-xs" regDate={date} />}
     </div>
   );
 }

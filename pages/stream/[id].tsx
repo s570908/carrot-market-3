@@ -7,7 +7,7 @@ import { Stream, User } from "@prisma/client";
 import useUser from "@libs/client/useUser";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { cls } from "@libs/client/utils";
 
 interface StreamMessage {
@@ -28,6 +28,7 @@ interface StreamWithMessages extends Stream {
 interface StreamResponse {
   ok: boolean;
   stream: StreamWithMessages;
+  live: boolean;
 }
 
 interface MessageForm {

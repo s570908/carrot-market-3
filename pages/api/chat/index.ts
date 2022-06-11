@@ -12,7 +12,7 @@ async function handler(
   } = req;
   const chatRoomList = await client.chatRoom.findMany({
     where: {
-      OR: [{ createdById: user?.id }, { createdForId: user?.id }],
+      OR: [{ user1Id: user?.id }, { user2Id: user?.id }],
     },
     include: {
       recentMsg: {
@@ -20,18 +20,16 @@ async function handler(
           chatMsg: true,
         },
       },
-      createFor: {
+      user1: {
         select: {
           name: true,
           avatar: true,
-          id: true,
         },
       },
-      createBy: {
+      user2: {
         select: {
           name: true,
           avatar: true,
-          id: true,
         },
       },
     },
