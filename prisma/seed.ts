@@ -41,20 +41,20 @@ async function main() {
     //     },
     //   },
     // });
-    await client.sale.create({
-      data: {
-        user: {
-          connect: {
-            id: 1,
-          },
-        },
-        product: {
-          connect: {
-            id: item + 1,
-          },
-        },
-      },
-    });
+    // await client.sale.create({
+    //   data: {
+    //     user: {
+    //       connect: {
+    //         id: 1,
+    //       },
+    //     },
+    //     product: {
+    //       connect: {
+    //         id: item + 1,
+    //       },
+    //     },
+    //   },
+    // });
     console.log(`${item}/30`);
   });
 }

@@ -13,26 +13,31 @@ datasource db {
 }
 
 model User {
-  id              Int         @id @default(autoincrement())
-  phone           String?     @unique
-  email           String?     @unique
-  name            String
-  avatar          String?
-  created         DateTime    @default(now())
-  updated         DateTime    @updatedAt
-  tokens          Token[]
-  products        Products[]
-  fav             Fav[]
-  posts           Post[]
-  answers         Answer[]
-  wonderings      Wondering[]
-  writtenReviews  Review[]    @relation(name: "writtenReviews")
-  receivedReviews Review[]    @relation(name: "receivedReviews")
-  sale            Sale[]
-  purchase        Purchase[]
-  record          Record[]
-  stream          Stream[]
-  message         Message[]
+  id               Int          @id @default(autoincrement())
+  phone            String?      @unique
+  email            String?      @unique
+  name             String
+  avatar           String?
+  created          DateTime     @default(now())
+  updated          DateTime     @updatedAt
+  tokens           Token[]
+  products         Products[]
+  fav              Fav[]
+  posts            Post[]
+  answers          Answer[]
+  wonderings       Wondering[]
+  writtenReviews   Review[]     @relation(name: "writtenReviews")
+  receivedReviews  Review[]     @relation(name: "receivedReviews")
+  sale             Sale[]
+  purchase         Purchase[]
+  record           Record[]
+  stream           Stream[]
+  message          Message[]
+  writtenSellChat  SellerChat[] @relation(name: "writtenSellChat")
+  receivedSellChat SellerChat[] @relation(name: "receivedSellChat")
+  SellerChat       SellerChat[]
+  ChatRoom         ChatRoom[]   @relation(name: "receivedSellChatRoom")
+  mychatroom       ChatRoom[]   @relation(name: "writtenSellChatRoom")
 }
 
 model Token {
@@ -182,4 +187,30 @@ enum Kind {
   Purchase
   Sale
   Fav
+}
+
+model SellerChat {
+  id           Int        @id @default(autoincrement())
+  createBy     User       @relation(name: "writtenSellChat", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int
+  createFor    User       @relation(name: "receivedSellChat", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  chatMsg      String     @db.MediumText
+  created      DateTime   @default(now())
+  updated      DateTime   @updatedAt
+  User         User?      @relation(fields: [userId], references: [id])
+  userId       Int?
+  ChatRoom     ChatRoom[]
+}
+
+model ChatRoom {
+  id           Int        @id @default(autoincrement())
+  createFor    User       @relation(name: "receivedSellChatRoom", fields: [createdForId], references: [id], onDelete: Cascade)
+  createdForId Int
+  createBy     User       @relation(name: "writtenSellChatRoom", fields: [createdById], references: [id], onDelete: Cascade)
+  createdById  Int        @default(1)
+  recentMsg    SellerChat @relation(fields: [recentMsgId], references: [id], onDelete: Cascade)
+  recentMsgId  Int
+  created      DateTime   @default(now())
+  updated      DateTime   @updatedAt
 }

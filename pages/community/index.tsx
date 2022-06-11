@@ -6,7 +6,6 @@ import useSWR from "swr";
 import { Post, User } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
 import RegDate from "@components/regDate";
-import { useRouter } from "next/router";
 import { useState } from "react";
 import PaginationButton from "@components/pagination-button";
 
@@ -25,7 +24,6 @@ interface PostsResponse {
 
 const Community: NextPage = () => {
   const { latitude, longitude } = useCoords();
-  const router = useRouter();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const { data } = useSWR<PostsResponse>(
