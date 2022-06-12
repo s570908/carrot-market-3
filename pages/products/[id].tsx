@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Button from "@components/button";
 import Layout from "@components/layout";
-import Head from "next/head";
 import useSWR, { mutate, useSWRConfig } from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -9,8 +8,8 @@ import { Products, User } from "@prisma/client";
 import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import useUser from "@libs/client/useUser";
-import Image from "next/image";
 import ImgComponent from "@components/img-component";
+import { useEffect } from "react";
 
 interface ProductWithUser extends Products {
   user: User;
@@ -30,6 +29,8 @@ const ItemDetail: NextPage = () => {
     router.query.id ? `/api/products/${router.query.id}` : null
   );
   const [toggleFav] = useMutation(`/api/products/${router.query.id}/fav`);
+  const [talkToSeller, { loading, data: talkToSellerData }] =
+    useMutation(`/api/chat`);
   const onFavClick = () => {
     if (!data) return;
     boundMutate((prev) => prev && { ...prev, isLike: !prev.isLike }, false);
@@ -37,8 +38,15 @@ const ItemDetail: NextPage = () => {
     toggleFav({});
   };
   const onChatClick = () => {
-    router.push(`/chats/${data?.product.userId}`);
+    talkToSeller({ buyerId: user?.id, sellerId: data?.product.userId });
   };
+  useEffect(() => {
+    if (talkToSellerData && talkToSellerData.ok) {
+      talkToSellerData.chatRoomList
+        ? router.push(`/chats/${talkToSellerData.chatRoomList.id}`)
+        : router.push(`/chats/${talkToSellerData.createChat.id}`);
+    }
+  }, [talkToSellerData]);
   return (
     <Layout head="캐럿" title="캐럿" canGoBack backUrl={"back"}>
       <div className="px-4 py-4">
@@ -82,9 +90,14 @@ const ItemDetail: NextPage = () => {
               {data ? data?.product?.description : "Now Loading..."}
             </p>
             <div className="flex items-center justify-between space-x-2">
-              <Button onClick={onChatClick} large text="Talk to seller" />
+              {data?.product.userId === user?.id ? (
+                <Button disabled large text="My item" />
+              ) : (
+                <Button onClick={onChatClick} large text="Talk to seller" />
+              )}
               <button
                 onClick={onFavClick}
+                disabled={data?.product.userId === user?.id}
                 className={cls(
                   data?.isLike
                     ? " text-red-400 hover:text-red-500"

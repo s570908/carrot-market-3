@@ -15,10 +15,32 @@ async function handler(
     where: {
       chatRoomId: +id.toString(),
     },
+    include: {
+      user: {
+        select: {
+          name: true,
+          avatar: true,
+        },
+      },
+    },
   });
   const seller = await client.chatRoom.findUnique({
     where: {
       id: +id.toString(),
+    },
+    include: {
+      buyer: {
+        select: {
+          name: true,
+          avatar: true,
+        },
+      },
+      seller: {
+        select: {
+          name: true,
+          avatar: true,
+        },
+      },
     },
   });
   res.json({ ok: true, sellerChat, seller });

@@ -34,8 +34,8 @@ model User {
   stream          Stream[]
   message         Message[]
   sellerchat      SellerChat[]
-  chatroom_user1  ChatRoom[]   @relation(name: "user1")
-  chatroom_user2  ChatRoom[]   @relation(name: "user2")
+  chatroom_buyer  ChatRoom[]   @relation(name: "buyer")
+  chatroom_seller ChatRoom[]   @relation(name: "seller")
 }
 
 model Token {
@@ -199,13 +199,13 @@ model SellerChat {
 }
 
 model ChatRoom {
-  id          Int        @id @default(autoincrement())
-  user1       User       @relation(name: "user1", fields: [user1Id], references: [id], onDelete: Cascade)
-  user1Id     Int        @default(1)
-  user2       User       @relation(name: "user2", fields: [user2Id], references: [id], onDelete: Cascade)
-  user2Id     Int        @default(1)
-  recentMsg   SellerChat @relation(fields: [recentMsgId], references: [id], onDelete: Cascade)
-  recentMsgId Int
-  created     DateTime   @default(now())
-  updated     DateTime   @updatedAt
+  id          Int         @id @default(autoincrement())
+  buyer       User        @relation(name: "buyer", fields: [buyerId], references: [id], onDelete: Cascade)
+  buyerId     Int         @default(1)
+  seller      User        @relation(name: "seller", fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId    Int         @default(1)
+  recentMsg   SellerChat? @relation(fields: [recentMsgId], references: [id], onDelete: Cascade)
+  recentMsgId Int?
+  created     DateTime    @default(now())
+  updated     DateTime    @updatedAt
 }

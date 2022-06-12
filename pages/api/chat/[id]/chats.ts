@@ -14,13 +14,14 @@ async function handler(
   } = req;
   const sellerChat = await client.sellerChat.create({
     data: {
-      chatMsg: body.message,
+      chatMsg: body.chatMsg,
       ChatRoom: {
         connect: {
           id: +id.toString(),
         },
       },
-      createBy: {
+      chatRoomId: +id.toString(),
+      user: {
         connect: {
           id: user?.id,
         },
