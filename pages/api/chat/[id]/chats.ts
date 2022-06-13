@@ -26,9 +26,9 @@ async function handler(
           id: user?.id,
         },
       },
+      isNew: true,
     },
   });
-
   res.json({ ok: true, sellerChat });
 }
 

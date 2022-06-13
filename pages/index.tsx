@@ -8,8 +8,6 @@ import { Fav, Products } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import PaginationButton from "@components/pagination-button";
-import Image from "next/image";
-import books from "../public/books.png";
 
 export interface ProductWithCount extends Products {
   fav: Fav[];

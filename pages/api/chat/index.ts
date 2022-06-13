@@ -54,6 +54,8 @@ async function handler(
         recentMsg: {
           select: {
             chatMsg: true,
+            isNew: true,
+            userId: true,
           },
         },
         buyer: {

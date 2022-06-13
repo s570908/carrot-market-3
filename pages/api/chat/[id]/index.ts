@@ -43,6 +43,18 @@ async function handler(
       },
     },
   });
+  sellerChat.map(async (chat) => {
+    if (chat.userId !== user?.id) {
+      await client.sellerChat.updateMany({
+        where: {
+          AND: [{ chatRoomId: +id.toString() }, { userId: chat.userId }],
+        },
+        data: {
+          isNew: false,
+        },
+      });
+    }
+  });
   res.json({ ok: true, sellerChat, seller });
 }
 

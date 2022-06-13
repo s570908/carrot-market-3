@@ -7,6 +7,7 @@ import { SellerChat, User } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import useMutation from "@libs/client/useMutation";
 import Message from "@components/message";
+import { useEffect } from "react";
 
 interface ChatWithUser extends SellerChat {
   user: User;
@@ -58,6 +59,10 @@ const ChatDetail: NextPage = () => {
     );
     sendChat(chatForm);
   };
+  useEffect(() => {
+    const chatBox = document.getElementById("chatBox") as HTMLElement;
+    chatBox.scrollTop = chatBox.scrollHeight + 20;
+  }, [sendChatData, mutate]);
   return (
     <Layout
       head={`${
@@ -73,8 +78,11 @@ const ChatDetail: NextPage = () => {
       canGoBack
       backUrl={"/chats"}
     >
-      <div className="space-y-4 py-10 px-4 pb-16">
-        <div className="flex flex-col space-y-2">
+      <div className="px-4 pt-5 pb-12">
+        <div
+          className="flex h-[51rem] flex-col space-y-2 overflow-y-scroll py-5 transition-all scrollbar-hide"
+          id="chatBox"
+        >
           {data?.sellerChat?.map((message) => (
             <Message
               reversed={message.userId === user?.id}
@@ -86,23 +94,25 @@ const ChatDetail: NextPage = () => {
             />
           ))}
         </div>
-        <form
-          onSubmit={handleSubmit(onValid)}
-          className="fixed inset-x-0 bottom-0  bg-white py-2"
-        >
-          <div className="relative mx-auto flex w-full  max-w-md items-center">
-            <input
-              {...register("chatMsg", { required: true })}
-              type="text"
-              className="w-full rounded-full border-gray-300 pr-12 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
-            />
-            <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
-              <button className="flex items-center rounded-full bg-orange-500 px-3 text-sm text-white hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
-                &rarr;
-              </button>
+        <div>
+          <form
+            onSubmit={handleSubmit(onValid)}
+            className="fixed inset-x-0 bottom-0  bg-white py-2"
+          >
+            <div className="relative mx-auto flex w-full  max-w-md items-center">
+              <input
+                {...register("chatMsg", { required: true })}
+                type="text"
+                className="w-full rounded-full border-gray-300 pr-12 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-orange-500"
+              />
+              <div className="absolute inset-y-0 right-0 flex py-1.5 pr-1.5">
+                <button className="flex items-center rounded-full bg-orange-500 px-3 text-sm text-white hover:bg-orange-600 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2">
+                  &rarr;
+                </button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </Layout>
   );

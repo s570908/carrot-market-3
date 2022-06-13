@@ -196,6 +196,7 @@ model SellerChat {
   updated    DateTime   @updatedAt
   ChatRoom   ChatRoom[]
   chatRoomId Int        @default(1)
+  isNew      Boolean?
 }
 
 model ChatRoom {
@@ -206,6 +207,7 @@ model ChatRoom {
   sellerId    Int         @default(1)
   recentMsg   SellerChat? @relation(fields: [recentMsgId], references: [id], onDelete: Cascade)
   recentMsgId Int?
+  newCount    Int?
   created     DateTime    @default(now())
   updated     DateTime    @updatedAt
 }

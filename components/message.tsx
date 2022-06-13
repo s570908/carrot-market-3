@@ -1,6 +1,7 @@
 import { cls } from "@libs/client/utils";
 import ImgComponent from "@components/img-component";
 import RegDate from "@components/regDate";
+import Image from "next/image";
 
 interface MessageProps {
   message: string;
@@ -42,7 +43,11 @@ export default function Message({
       <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">
         <p>{message}</p>
       </div>
-      {date && <RegDate className="translate-y-5 text-xs" regDate={date} />}
+      {date && (
+        <span>
+          <RegDate className="translate-y-5 text-xs" regDate={date} />
+        </span>
+      )}
     </div>
   );
 }

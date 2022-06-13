@@ -67,7 +67,7 @@ const StreamDetail: NextPage = () => {
     sendMessage(form);
   };
   useEffect(() => {
-    const msgBox = document.querySelector("#msg");
+    const msgBox = document.querySelector("#msg") as HTMLElement;
     msgBox.scrollTop = msgBox.scrollHeight;
   }, [sendMessageData]);
   return (

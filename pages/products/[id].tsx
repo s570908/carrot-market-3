@@ -40,6 +40,7 @@ const ItemDetail: NextPage = () => {
   const onChatClick = () => {
     talkToSeller({ buyerId: user?.id, sellerId: data?.product.userId });
   };
+  const onBuyClick = () => {};
   useEffect(() => {
     if (talkToSellerData && talkToSellerData.ok) {
       talkToSellerData.chatRoomList
@@ -93,7 +94,10 @@ const ItemDetail: NextPage = () => {
               {data?.product.userId === user?.id ? (
                 <Button disabled large text="My item" />
               ) : (
-                <Button onClick={onChatClick} large text="Talk to seller" />
+                <>
+                  <Button onClick={onChatClick} large text="Talk to Seller" />
+                  <Button onClick={onBuyClick} large text="Buy It" />
+                </>
               )}
               <button
                 onClick={onFavClick}

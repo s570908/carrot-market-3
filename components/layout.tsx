@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import useSWR from "swr";
+import useUser from "@libs/client/useUser";
 interface LayoutProps {
   title?: string;
   canGoBack?: boolean;
@@ -11,7 +13,21 @@ interface LayoutProps {
   backUrl?: any;
   isProfile?: boolean;
   head: string;
+  [key: string]: any;
 }
+
+interface NewChatProps {
+  ok: boolean;
+  newChat: [
+    {
+      recentMsg: {
+        isNew: boolean;
+        userId: number;
+      };
+    }
+  ];
+}
+
 export default function Layout({
   title,
   canGoBack,
@@ -19,7 +35,10 @@ export default function Layout({
   children,
   backUrl,
   head,
+  ...rest
 }: LayoutProps) {
+  const { user } = useUser();
+  const [isNew, setIsNew] = useState(false);
   const router = useRouter();
   const onClick = () => {
     if (backUrl === "back") {
@@ -28,12 +47,22 @@ export default function Layout({
       router.push(backUrl);
     }
   };
+  const { data } = useSWR<NewChatProps>(`/api/newchat`);
+  useEffect(() => {
+    data?.newChat?.map((chat) => {
+      if (chat.recentMsg.isNew && chat.recentMsg.userId !== user?.id)
+        setIsNew(true);
+    });
+  }, [data]);
   return (
     <div>
       <Head>
         <title>{head}</title>
       </Head>
-      <div className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center  border-b bg-white px-10 text-lg  font-medium text-gray-800">
+      <div
+        {...rest}
+        className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center  border-b bg-white px-10 text-lg  font-medium text-gray-800"
+      >
         {canGoBack ? (
           <button onClick={onClick} className="absolute left-4">
             <svg
@@ -116,7 +145,7 @@ export default function Layout({
           <Link href="/chats">
             <a
               className={cls(
-                "flex flex-col items-center space-y-2 ",
+                "flex flex-col items-center space-y-2",
                 router.pathname === "/chats"
                   ? "text-orange-500"
                   : "transition-colors hover:text-gray-500"
@@ -136,6 +165,18 @@ export default function Layout({
                   d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                 ></path>
               </svg>
+              {isNew && router.pathname !== "/chats" ? (
+                <div className="absolute top-0 left-[15.5rem] text-orange-500 sm:left-72">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                  </svg>
+                </div>
+              ) : null}
               <span>채팅</span>
             </a>
           </Link>
