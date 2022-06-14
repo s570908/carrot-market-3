@@ -69,7 +69,7 @@ const StreamDetail: NextPage = () => {
   useEffect(() => {
     const msgBox = document.querySelector("#msg") as HTMLElement;
     msgBox.scrollTop = msgBox.scrollHeight;
-  }, [sendMessageData]);
+  }, [data?.ok, sendMessageData]);
   return (
     <Layout
       head={`${data?.stream.name} || 라이브`}
@@ -146,7 +146,7 @@ const StreamDetail: NextPage = () => {
           <h2 className="text-2xl font-bold text-gray-900">Live Chat</h2>
           <div
             id="msg"
-            className="h-[50vh] space-y-2 overflow-y-scroll py-8  px-4"
+            className="h-[38rem] space-y-2 overflow-y-scroll py-8 px-4"
           >
             {data?.stream.messages?.map((message) => (
               <Message

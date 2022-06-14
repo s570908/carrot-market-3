@@ -26,6 +26,9 @@ async function handler(
       product: {
         include: {
           fav: {
+            where: {
+              userId: user?.id,
+            },
             select: {
               userId: true,
             },

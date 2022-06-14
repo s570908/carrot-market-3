@@ -80,7 +80,7 @@ const ChatDetail: NextPage = () => {
     >
       <div className="px-4 pt-5 pb-12">
         <div
-          className="flex h-[51rem] flex-col space-y-2 overflow-y-scroll py-5 transition-all scrollbar-hide"
+          className="flex h-[51rem] flex-col space-y-2 overflow-y-scroll py-5 transition-all"
           id="chatBox"
         >
           {data?.sellerChat?.map((message) => (

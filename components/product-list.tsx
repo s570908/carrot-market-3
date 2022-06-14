@@ -12,6 +12,7 @@ interface Record extends ProductListResponse {
   id: number;
   product: ProductWithCount;
   pages: number;
+  userId: number;
 }
 
 interface ProductListResponse {
@@ -20,9 +21,9 @@ interface ProductListResponse {
 
 const getKey = (pageIndex: number, previousPageData: ProductListResponse) => {
   const kind = document.location.href.split("/").pop();
-  if (pageIndex === 0) return `/api/users/me/${kind}?&page=1&limit=10`;
+  if (pageIndex === 0) return `/api/users/me/${kind}?&page=1`;
   if (pageIndex + 1 > +previousPageData.pages) return null;
-  return `/api/users/me/${kind}?&page=${pageIndex + 1}&limit=10`;
+  return `/api/users/me/${kind}?&page=${pageIndex + 1}`;
 };
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -42,17 +43,22 @@ export default function ProductList({ kind }: ProductListProps) {
       <div className="flex flex-col space-y-5 divide-y">
         {products?.map((record) => (
           <Item
-            id={record.id}
+            id={record.product.id}
             key={record.id}
             title={record.product.name}
             price={record.product.price}
             hearts={record.product._count.fav}
             photo={record.product.image}
-            isLike={record.product.fav
-              ?.map((uid) => {
-                if (uid.userId === user?.id) return true;
-              })
-              .includes(true)}
+            isLike={
+              kind === "favs"
+                ? record.userId === user?.id
+                : record.product.fav
+                    ?.map((uid) => {
+                      if (uid.userId === user?.id) return true;
+                    })
+                    .includes(true)
+            }
+            kind={kind}
           />
         ))}
       </div>

@@ -55,6 +55,7 @@ model Products {
   name           String
   price          Int
   description    String     @db.MediumText
+  isSell         Boolean    @default(false)
   created        DateTime   @default(now())
   updated        DateTime   @updatedAt
   fav            Fav[]

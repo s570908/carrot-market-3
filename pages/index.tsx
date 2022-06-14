@@ -40,21 +40,23 @@ const Home: NextPage = () => {
   return (
     <Layout head="Home" title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y px-4">
-        {data?.products?.map((product) => (
-          <Item
-            id={product.id}
-            key={product.id}
-            title={product.name}
-            price={product.price}
-            hearts={product._count.fav}
-            photo={product.image}
-            isLike={product.fav
-              .map((uid) => {
-                if (uid.userId === user?.id) return true;
-              })
-              .includes(true)}
-          />
-        ))}
+        {data?.products?.map((product) =>
+          product.isSell ? null : (
+            <Item
+              id={product.id}
+              key={product.id}
+              title={product.name}
+              price={product.price}
+              hearts={product._count.fav}
+              photo={product.image}
+              isLike={product.fav
+                .map((uid) => {
+                  if (uid.userId === user?.id) return true;
+                })
+                .includes(true)}
+            />
+          )
+        )}
       </div>
       {data ? (
         <>

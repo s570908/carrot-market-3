@@ -55,7 +55,11 @@ async function handler(
       });
     }
   });
-  res.json({ ok: true, sellerChat, seller });
+  if (seller?.buyerId !== user?.id || seller?.sellerId !== user?.id) {
+    res.json({ ok: false, error: "접근 권한이 없습니다." });
+  } else {
+    res.json({ ok: true, sellerChat, seller });
+  }
 }
 
 export default withApiSession(withHandler({ methods: ["GET"], handler }));

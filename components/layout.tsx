@@ -11,7 +11,6 @@ interface LayoutProps {
   hasTabBar?: boolean;
   children: React.ReactNode;
   backUrl?: any;
-  isProfile?: boolean;
   head: string;
   [key: string]: any;
 }

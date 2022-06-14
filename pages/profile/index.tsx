@@ -19,7 +19,7 @@ const Profile: NextPage = () => {
   const { user } = useUser();
   const { data } = useSWR<ReviewsResponse>("/api/reviews");
   return (
-    <Layout head="나의 캐럿" hasTabBar title="나의 캐럿" isProfile={true}>
+    <Layout head="나의 캐럿" hasTabBar title="나의 캐럿">
       <div className="px-4">
         <div className="mt-4 flex items-center space-x-3">
           {user?.avatar ? (
@@ -39,7 +39,7 @@ const Profile: NextPage = () => {
             </Link>
           </div>
         </div>
-        <div className="mt-10 flex justify-around">
+        <div className="mt-8 flex justify-around border-y py-3">
           <Link href="/profile/sales">
             <a className="flex flex-col items-center">
               <div className="flex h-14 w-14 items-center justify-center rounded-full bg-orange-400 text-white">
@@ -111,6 +111,7 @@ const Profile: NextPage = () => {
           </Link>
         </div>
         <div className="flex flex-col space-y-5">
+          <div className="pt-3 text-lg font-bold">Received Reviews</div>
           {data?.reviews.map((review) => (
             <div key={review.id} className="mt-12">
               <div className="flex items-center space-x-4">
@@ -149,7 +150,7 @@ const Profile: NextPage = () => {
                   </div>
                 </div>
               </div>
-              <div className="mt-4 text-sm text-gray-600">
+              <div className="mt-4 border-b pb-5 text-sm text-gray-600">
                 <p>{review.review}</p>
               </div>
             </div>
