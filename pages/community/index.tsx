@@ -3,14 +3,18 @@ import Link from "next/link";
 import FloatingButton from "@components/floating-button";
 import Layout from "@components/layout";
 import useSWR from "swr";
-import { Post, User } from "@prisma/client";
+import { Post, User, Wondering } from "@prisma/client";
 import useCoords from "@libs/client/useCoords";
 import RegDate from "@components/regDate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PaginationButton from "@components/pagination-button";
+import { cls } from "@libs/client/utils";
+import useUser from "@libs/client/useUser";
+import { useRouter } from "next/router";
 
 interface PostWithUser extends Post {
   user: User;
+  wonderings: Wondering[];
   _count: {
     wonderings: number;
     answer: number;
@@ -23,12 +27,14 @@ interface PostsResponse {
 }
 
 const Community: NextPage = () => {
+  const { user } = useUser();
+  const router = useRouter();
   const { latitude, longitude } = useCoords();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [isWonder, setIsWonder] = useState(false);
   const { data } = useSWR<PostsResponse>(
     latitude && longitude
-      ? `/api/posts?page=${page}&limit=${limit}&latitude=${latitude}&longitude=${longitude}`
+      ? `/api/posts?page=${page}&latitude=${latitude}&longitude=${longitude}`
       : null
   );
   const onPrevBtn = () => {
@@ -37,6 +43,17 @@ const Community: NextPage = () => {
   const onNextBtn = () => {
     setPage((prev) => prev + 1);
   };
+  useEffect(() => {
+    data?.posts.map((post) => {
+      post.wonderings.map((who) => {
+        if (who.userId === user?.id) {
+          setIsWonder(true);
+        } else {
+          setIsWonder(false);
+        }
+      });
+    });
+  }, [data, router]);
   return (
     <Layout head="동네생활" title="동네생활" hasTabBar>
       <div className="space-y-6 px-4 py-4">
@@ -55,7 +72,12 @@ const Community: NextPage = () => {
                 <RegDate regDate={post.created} />
               </div>
               <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
-                <span className="flex items-center space-x-2 text-sm">
+                <span
+                  className={cls(
+                    isWonder ? "text-green-700" : "",
+                    "flex items-center space-x-2 text-sm"
+                  )}
+                >
                   <svg
                     className="h-4 w-4"
                     fill="none"
