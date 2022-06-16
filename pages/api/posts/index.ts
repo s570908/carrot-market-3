@@ -32,6 +32,7 @@ async function handler(
   if (req.method === "GET") {
     const {
       query: { latitude, longitude, page },
+      session: { user },
     } = req;
     const parseLatitude = parseFloat(latitude.toString());
     const parseLongitude = parseFloat(longitude.toString());
