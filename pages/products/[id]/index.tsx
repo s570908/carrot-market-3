@@ -94,7 +94,13 @@ const ItemDetail: NextPage = () => {
               <p className="text-sm font-medium text-gray-700">
                 {data ? data?.product?.user?.name : "Now Loading..."}
               </p>
-              <Link href={`/profile/${data?.product?.user?.id}`}>
+              <Link
+                href={
+                  data?.product?.user?.id === user?.id
+                    ? `/profile`
+                    : `/profile/${data?.product?.user?.id}`
+                }
+              >
                 <a className="text-xs font-medium text-gray-500">
                   View profile &rarr;
                 </a>
@@ -109,8 +115,12 @@ const ItemDetail: NextPage = () => {
               ￦{data ? data?.product?.price : "Now Loading..."}
             </span>
             <div className="my-3">
-              <div className="border-t py-3 text-xl font-bold">Review</div>
-              {data?.product.productReviews.length ? (
+              <div className="border-t py-3 text-xl font-bold">
+                {data?.product?.productReviews?.length > 0
+                  ? "Review"
+                  : "Description"}
+              </div>
+              {data?.product?.productReviews?.length > 0 ? (
                 data?.product?.productReviews.map((review) => (
                   <div
                     key={review.id}
@@ -169,7 +179,7 @@ const ItemDetail: NextPage = () => {
               )}
             </div>
             <div className="flex items-center justify-between space-x-2">
-              {data?.product.productReviews.length ? (
+              {data?.product?.productReviews?.length > 0 ? (
                 <Button disabled large text="Good Carrot!" />
               ) : data?.product.isSell ? (
                 <Button onClick={onReviewClick} large text="Go to Review!" />
