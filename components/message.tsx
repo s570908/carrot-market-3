@@ -36,18 +36,30 @@ export default function Message({
         ) : (
           <div className="h-8 w-8 rounded-full bg-slate-400" />
         )}
-        <span className="m-0 -translate-y-1 text-center text-[8px]">
-          {name.length > 5 ? name.slice(0, 5) + "..." : name}
-        </span>
       </div>
-      <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">
-        <p>{message}</p>
+      <div
+        className={cls(
+          "flex w-full flex-col items-start",
+          reversed ? "flex-wrap-reverse space-x-0" : "space-x-0"
+        )}
+      >
+        <span className="m-0 text-center text-[8px]">{name}</span>
+        <div
+          className={cls(
+            reversed ? "flex-row-reverse space-x-1" : "space-x-1",
+            "flex w-full flex-row items-end justify-start"
+          )}
+        >
+          <div className="w-1/2 rounded-md border border-gray-300 p-2 text-sm text-gray-700">
+            <p>{message}</p>
+          </div>
+          {date && (
+            <div className={cls("w-fit", reversed ? "px-1" : "")}>
+              <RegDate className="text-xs" regDate={date} />
+            </div>
+          )}
+        </div>
       </div>
-      {date && (
-        <span>
-          <RegDate className="translate-y-5 text-xs" regDate={date} />
-        </span>
-      )}
     </div>
   );
 }

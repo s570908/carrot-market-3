@@ -62,7 +62,7 @@ const ChatDetail: NextPage = () => {
   useEffect(() => {
     const chatBox = document.getElementById("chatBox") as HTMLElement;
     chatBox.scrollTop = chatBox.scrollHeight + 20;
-  }, [sendChatData, mutate]);
+  }, [data?.ok, sendChatData, mutate]);
   return (
     <Layout
       head={`${
@@ -80,7 +80,7 @@ const ChatDetail: NextPage = () => {
     >
       <div className="px-4 pt-5 pb-12">
         <div
-          className="flex h-[51rem] flex-col space-y-2 overflow-y-scroll py-5 transition-all"
+          className="flex h-[calc(95vh-106px)] flex-col space-y-2 overflow-y-scroll py-5 transition-all"
           id="chatBox"
         >
           {data?.sellerChat?.map((message) => (
