@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "@components/button";
 import Input from "@components/input";
@@ -9,10 +9,21 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import useUser from "@libs/client/useUser";
 import dynamic from "next/dynamic";
+import { Skeleton } from "@mui/material";
 
 // import Tokoopne1 from "@components/tokoopne1";
 
-const Tokoopne1 = dynamic(() => import("@components/tokoopne1"));
+const Tokoopne1 = dynamic(
+  () =>
+    new Promise((resolve) =>
+      setTimeout(() => resolve(import("@components/tokoopne1")), 10000)
+    ),
+  {
+    ssr: false,
+    // loading: () => <span>Loading a big Component</span>,
+    suspense: true,
+  }
+);
 
 interface EnterForm {
   email?: string;
@@ -125,7 +136,11 @@ const Enter: NextPage = () => {
               ) : null}
               {method === "phone" ? (
                 <>
-                  <Tokoopne1 />
+                  <Suspense
+                    fallback={<Skeleton animation="wave" className="w-1/2" />}
+                  >
+                    <Tokoopne1 />
+                  </Suspense>
                   <Input
                     register={register("phone", { required: true })}
                     name="phone"
