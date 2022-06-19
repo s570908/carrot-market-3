@@ -9,9 +9,13 @@ interface ProductListProps {
 }
 
 interface Record extends ProductListResponse {
+  //@ts-ignore
   id: number;
+  //@ts-ignore
   product: ProductWithCount;
+  //@ts-ignore
   pages: number;
+  //@ts-ignore
   userId: number;
 }
 

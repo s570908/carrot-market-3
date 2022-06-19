@@ -113,8 +113,8 @@ const Profile: NextPage = () => {
         <div className="flex flex-col space-y-5">
           <div className="pt-3 text-lg font-bold">Received Reviews</div>
           {data?.reviews.map((review) => (
-            <Link href={`/products/${review.productForId}`}>
-              <a key={review.id} className="mt-12 cursor-pointer">
+            <Link key={review.id} href={`/products/${review.productForId}`}>
+              <a className="mt-12 cursor-pointer">
                 <div className="flex items-center space-x-4">
                   {review.createBy.avatar ? (
                     <ImgComponent

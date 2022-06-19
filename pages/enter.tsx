@@ -8,22 +8,6 @@ import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import useUser from "@libs/client/useUser";
-import dynamic from "next/dynamic";
-import { Skeleton } from "@mui/material";
-
-// import Tokoopne1 from "@components/tokoopne1";
-
-const Tokoopne1 = dynamic(
-  () =>
-    new Promise((resolve) =>
-      setTimeout(() => resolve(import("@components/tokoopne1")), 10000)
-    ),
-  {
-    ssr: false,
-    // loading: () => <span>Loading a big Component</span>,
-    suspense: true,
-  }
-);
 
 interface EnterForm {
   email?: string;
@@ -135,20 +119,13 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "phone" ? (
-                <>
-                  <Suspense
-                    fallback={<Skeleton animation="wave" className="w-1/2" />}
-                  >
-                    <Tokoopne1 />
-                  </Suspense>
-                  <Input
-                    register={register("phone", { required: true })}
-                    name="phone"
-                    label="Phone number"
-                    type="number"
-                    kind="phone"
-                  />
-                </>
+                <Input
+                  register={register("phone", { required: true })}
+                  name="phone"
+                  label="Phone number"
+                  type="number"
+                  kind="phone"
+                />
               ) : null}
               {method === "email" ? (
                 <Button text={loading ? "Loading" : "Get login link"} />

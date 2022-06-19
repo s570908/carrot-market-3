@@ -116,10 +116,12 @@ const ItemDetail: NextPage = () => {
             </span>
             <div className="my-3">
               <div className="border-t py-3 text-xl font-bold">
+                {/*@ts-ignore*/}
                 {data?.product?.productReviews?.length > 0
                   ? "Review"
                   : "Description"}
               </div>
+              {/*@ts-ignore*/}
               {data?.product?.productReviews?.length > 0 ? (
                 data?.product?.productReviews.map((review) => (
                   <div
@@ -179,6 +181,7 @@ const ItemDetail: NextPage = () => {
               )}
             </div>
             <div className="flex items-center justify-between space-x-2">
+              {/*@ts-ignore*/}
               {data?.product?.productReviews?.length > 0 ? (
                 <Button disabled large text="Good Carrot!" />
               ) : data?.product.isSell ? (

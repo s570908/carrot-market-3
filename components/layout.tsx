@@ -60,10 +60,10 @@ export default function Layout({
       </Head>
       <div
         {...rest}
-        className="fixed top-0 flex h-12 w-full max-w-xl items-center justify-center  border-b bg-white px-10 text-lg  font-medium text-gray-800"
+        className="fixed top-0 z-10 flex h-12 w-full max-w-xl items-center  justify-center border-b bg-white px-10  text-lg font-medium text-gray-800"
       >
         {canGoBack ? (
-          <button onClick={onClick} className="absolute left-4">
+          <button onClick={onClick} className="absolute left-4 z-[2]">
             <svg
               className="h-6 w-6"
               fill="none"
@@ -84,7 +84,7 @@ export default function Layout({
           <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
         ) : null}
       </div>
-      <div className={cls("pt-12 sm:pb-0", hasTabBar ? "pb-24" : "")}>
+      <div className={cls("z-0 pt-12 sm:pb-0", hasTabBar ? "pb-24" : "")}>
         {children}
       </div>
       {hasTabBar ? (
