@@ -113,47 +113,49 @@ const Profile: NextPage = () => {
         <div className="flex flex-col space-y-5">
           <div className="pt-3 text-lg font-bold">Received Reviews</div>
           {data?.reviews.map((review) => (
-            <div key={review.id} className="mt-12">
-              <div className="flex items-center space-x-4">
-                {review.createBy.avatar ? (
-                  <ImgComponent
-                    imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy.avatar}/avatar`}
-                    width={48}
-                    height={48}
-                    clsProps="rounded-full"
-                  />
-                ) : (
-                  <div className="h-12 w-12 rounded-full bg-slate-500" />
-                )}
-                <div>
-                  <h4 className="text-sm font-bold text-gray-800">
-                    {review.createBy.name}
-                  </h4>
-                  <div className="flex items-center">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <svg
-                        key={star}
-                        className={cls(
-                          "h-5 w-5",
-                          review.score >= star
-                            ? "text-yellow-400"
-                            : "text-gray-300"
-                        )}
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 20 20"
-                        fill="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                    ))}
+            <Link href={`/products/${review.productForId}`}>
+              <a key={review.id} className="mt-12 cursor-pointer">
+                <div className="flex items-center space-x-4">
+                  {review.createBy.avatar ? (
+                    <ImgComponent
+                      imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy.avatar}/avatar`}
+                      width={48}
+                      height={48}
+                      clsProps="rounded-full"
+                    />
+                  ) : (
+                    <div className="h-12 w-12 rounded-full bg-slate-500" />
+                  )}
+                  <div>
+                    <h4 className="text-sm font-bold text-gray-800">
+                      {review.createBy.name}
+                    </h4>
+                    <div className="flex items-center">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={cls(
+                            "h-5 w-5",
+                            review.score >= star
+                              ? "text-yellow-400"
+                              : "text-gray-300"
+                          )}
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          aria-hidden="true"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="mt-4 border-b pb-5 text-sm text-gray-600">
-                <p>{review.review}</p>
-              </div>
-            </div>
+                <div className="mt-4 border-b pb-5 text-sm text-gray-600">
+                  <p>{review.review}</p>
+                </div>
+              </a>
+            </Link>
           ))}
         </div>
       </div>

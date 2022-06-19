@@ -10,6 +10,7 @@ interface ItemProps {
   hearts: number;
   isLike?: boolean;
   photo: string;
+  kind?: string;
 }
 
 export default function Item({
