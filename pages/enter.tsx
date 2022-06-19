@@ -8,6 +8,11 @@ import { cls } from "@libs/client/utils";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import useUser from "@libs/client/useUser";
+import dynamic from "next/dynamic";
+
+// import Tokoopne1 from "@components/tokoopne1";
+
+const Tokoopne1 = dynamic(() => import("@components/tokoopne1"));
 
 interface EnterForm {
   email?: string;
@@ -119,13 +124,16 @@ const Enter: NextPage = () => {
                 />
               ) : null}
               {method === "phone" ? (
-                <Input
-                  register={register("phone", { required: true })}
-                  name="phone"
-                  label="Phone number"
-                  type="number"
-                  kind="phone"
-                />
+                <>
+                  <Tokoopne1 />
+                  <Input
+                    register={register("phone", { required: true })}
+                    name="phone"
+                    label="Phone number"
+                    type="number"
+                    kind="phone"
+                  />
+                </>
               ) : null}
               {method === "email" ? (
                 <Button text={loading ? "Loading" : "Get login link"} />

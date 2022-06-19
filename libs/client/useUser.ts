@@ -12,9 +12,9 @@ export default function useUser() {
   const { data, error } = useSWR<ProfileResponse>("/api/users/me");
   const router = useRouter();
   useEffect(() => {
-    if (data && !data.ok) {
+    if (!data?.profile && !data?.ok) {
       router.replace("/enter");
     }
-  }, [data, router]);
+  }, [data]);
   return { user: data?.profile, isLoading: !data && !error };
 }
