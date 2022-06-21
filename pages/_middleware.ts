@@ -8,6 +8,8 @@ export function middleware(req: NextRequest, ev: NextFetchEvent) {
   if (!req.url.includes("/api")) {
     if (!req.url.includes("/enter") && !req.cookies.carrotsession) {
       return NextResponse.rewrite(new URL("/enter", req.url));
+    } else if (req.url.includes("/enter") && req.cookies.carrotsession) {
+      return NextResponse.rewrite(new URL("/", req.url));
     }
   }
 }
