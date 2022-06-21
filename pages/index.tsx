@@ -8,6 +8,8 @@ import { Fav, Products } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import PaginationButton from "@components/pagination-button";
+import client from "@libs/server/client";
+// import products from "pages/api/products";
 
 export interface ProductWithCount extends Products {
   fav: Fav[];
@@ -21,14 +23,14 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage = () => {
+const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const { data } = useSWR<ProductsResponse>(
-    `/api/products?page=${page}&limit=${limit}`
-  );
+  // const { data } = useSWR<ProductsResponse>(
+  //   `/api/products?page=${page}&limit=${limit}`
+  // );
   const onPrevBtn = () => {
     router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
     setPage((prev) => prev - 1);
@@ -40,14 +42,14 @@ const Home: NextPage = () => {
   return (
     <Layout head="Home" title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y px-4">
-        {data?.products?.map((product) =>
+        {products?.map((product) =>
           product.isSell ? null : (
             <Item
               id={product.id}
               key={product.id}
               title={product.name}
               price={product.price}
-              hearts={product._count.fav}
+              hearts={product._count?.fav}
               photo={product.image}
               isLike={product.fav
                 .map((uid) => {
@@ -58,7 +60,7 @@ const Home: NextPage = () => {
           )
         )}
       </div>
-      {data ? (
+      {products ? (
         <>
           <PaginationButton
             onClick={onPrevBtn}
@@ -85,7 +87,7 @@ const Home: NextPage = () => {
             onClick={onNextBtn}
             direction="next"
             page={page}
-            itemLength={data?.products?.length}
+            itemLength={products?.length}
             isLoading={isLoading}
           >
             <svg
@@ -125,5 +127,36 @@ const Home: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getServerSideProps() {
+  // const limit = 10;
+  const products = await client.products.findMany({
+    include: {
+      _count: {
+        select: {
+          fav: true,
+        },
+      },
+      fav: {
+        select: {
+          userId: true,
+        },
+      },
+      user: {
+        select: {
+          id: true,
+        },
+      },
+    },
+    // take: limit,
+    // skip: (1 - 1) * limit,
+    orderBy: { created: "desc" },
+  });
+  return {
+    props: {
+      products: JSON.parse(JSON.stringify(products)),
+    },
+  };
+}
 
 export default Home;

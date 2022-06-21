@@ -56,7 +56,7 @@ export default function Layout({
   return (
     <div>
       <Head>
-        <title>{head}</title>
+        <title>{head} | Carrot Market</title>
       </Head>
       <div
         {...rest}
