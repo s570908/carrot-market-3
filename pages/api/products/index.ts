@@ -9,8 +9,9 @@ async function handler(
 ) {
   if (req.method === "GET") {
     const {
-      query: { page, limit },
+      query: { page },
     } = req;
+    const limit = 10;
     const products = await client.products.findMany({
       include: {
         _count: {
@@ -29,8 +30,8 @@ async function handler(
           },
         },
       },
-      take: +limit,
-      skip: (+page - 1) * +limit,
+      take: limit,
+      skip: (+page - 1) * limit,
       orderBy: { created: "desc" },
     });
     res.json({

@@ -5,3 +5,7 @@
 ## Stack
 
 `Next.js` `TailwindCSS` `PlanetScale` `Prisma` `Twilio` `Cloudflare`
+
+## 배운 내용 정리
+
+[Velog](https://velog.io/@real-bird/series/next.js)

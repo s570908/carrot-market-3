@@ -3,7 +3,7 @@ import FloatingButton from "@components/floating-button";
 import Item from "@components/item";
 import Layout from "@components/layout";
 import useUser from "@libs/client/useUser";
-import useSWR from "swr";
+import useSWR, { SWRConfig } from "swr";
 import { Fav, Products } from "@prisma/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -23,26 +23,23 @@ interface ProductsResponse {
   products: ProductWithCount[];
 }
 
-const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+const Home: NextPage = () => {
   const { user, isLoading } = useUser();
   const router = useRouter();
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  // const { data } = useSWR<ProductsResponse>(
-  //   `/api/products?page=${page}&limit=${limit}`
-  // );
+  const { data } = useSWR<ProductsResponse>(`/api/products?page=${page}`);
   const onPrevBtn = () => {
-    router.push(`${router.pathname}?page=${page - 1}&limit=${limit}`);
+    router.push(`${router.pathname}?page=${page - 1}`);
     setPage((prev) => prev - 1);
   };
   const onNextBtn = () => {
-    router.push(`${router.pathname}?page=${page + 1}&limit=${limit}`);
+    router.push(`${router.pathname}?page=${page + 1}`);
     setPage((prev) => prev + 1);
   };
   return (
     <Layout head="Home" title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y px-4">
-        {products?.map((product) =>
+        {data?.products?.map((product) =>
           product.isSell ? null : (
             <Item
               id={product.id}
@@ -60,7 +57,7 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
           )
         )}
       </div>
-      {products ? (
+      {data ? (
         <>
           <PaginationButton
             onClick={onPrevBtn}
@@ -87,7 +84,7 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
             onClick={onNextBtn}
             direction="next"
             page={page}
-            itemLength={products?.length}
+            itemLength={data?.products?.length}
             isLoading={isLoading}
           >
             <svg
@@ -128,8 +125,24 @@ const Home: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
   );
 };
 
+const Page: NextPage<{ products: ProductWithCount[] }> = ({ products }) => {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          "/api/products?page=1": {
+            ok: true,
+            products,
+          },
+        },
+      }}
+    >
+      <Home />
+    </SWRConfig>
+  );
+};
+
 export async function getServerSideProps() {
-  // const limit = 10;
   const products = await client.products.findMany({
     include: {
       _count: {
@@ -148,8 +161,8 @@ export async function getServerSideProps() {
         },
       },
     },
-    // take: limit,
-    // skip: (1 - 1) * limit,
+    take: 10,
+    skip: 0,
     orderBy: { created: "desc" },
   });
   return {
@@ -159,4 +172,4 @@ export async function getServerSideProps() {
   };
 }
 
-export default Home;
+export default Page;

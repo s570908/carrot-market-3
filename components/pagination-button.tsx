@@ -21,7 +21,7 @@ export default function PaginationButton({
   isProfile,
 }: PaginationButton) {
   return (
-    <a
+    <button
       {...rest}
       onClick={onClick}
       className={cls(
@@ -30,12 +30,17 @@ export default function PaginationButton({
           : direction === "next" || (direction === "prev" && page <= 1)
           ? "bottom-40"
           : "bottom-56",
-        direction === "prev" && page <= 1 ? "invisible" : "",
-        (direction === "next" || isProfile) && itemLength < 10 ? "hidden" : "",
+        direction === "prev" && page <= 1 ? "hidden" : "",
+        (direction === "next" || isProfile) && itemLength < 10
+          ? "bg-gray-500 text-gray-800 hover:bg-gray-500"
+          : "",
         `fixed right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full  border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
       )}
+      disabled={
+        (direction === "next" || isProfile) && itemLength < 10 ? true : false
+      }
     >
       {children}
-    </a>
+    </button>
   );
 }

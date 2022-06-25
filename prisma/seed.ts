@@ -16,19 +16,19 @@ async function main() {
     //     },
     //   },
     // });
-    // await client.products.create({
-    //   data: {
-    //     image: "blabla",
-    //     name: String(item),
-    //     description: String(item),
-    //     price: item,
-    //     user: {
-    //       connect: {
-    //         id: 1,
-    //       },
-    //     },
-    //   },
-    // });
+    await client.products.create({
+      data: {
+        image: "277f60b2-5353-479f-3653-5005006da600",
+        name: String(item),
+        description: String(item),
+        price: item,
+        user: {
+          connect: {
+            id: 1,
+          },
+        },
+      },
+    });
     // await client.post.create({
     //   data: {
     //     question: String(item),
