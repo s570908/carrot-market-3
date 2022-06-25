@@ -21,6 +21,7 @@ export interface ProductWithCount extends Products {
 interface ProductsResponse {
   ok: boolean;
   products: ProductWithCount[];
+  nextProducts: ProductWithCount[];
 }
 
 const Home: NextPage = () => {
@@ -39,31 +40,30 @@ const Home: NextPage = () => {
   return (
     <Layout head="Home" title="홈" hasTabBar>
       <div className="flex flex-col space-y-5 divide-y px-4">
-        {data?.products?.map((product) =>
-          product.isSell ? null : (
-            <Item
-              id={product.id}
-              key={product.id}
-              title={product.name}
-              price={product.price}
-              hearts={product._count?.fav}
-              photo={product.image}
-              isLike={product.fav
-                .map((uid) => {
-                  if (uid.userId === user?.id) return true;
-                })
-                .includes(true)}
-            />
-          )
-        )}
+        {data?.products?.map((product) => (
+          <Item
+            id={product.id}
+            key={product.id}
+            title={product.name}
+            price={product.price}
+            hearts={product._count?.fav}
+            photo={product.image}
+            isLike={product.fav
+              .map((uid) => {
+                if (uid.userId === user?.id) return true;
+              })
+              .includes(true)}
+          />
+        ))}
       </div>
       {data ? (
-        <>
+        <div className="group relative">
           <PaginationButton
             onClick={onPrevBtn}
             direction="prev"
             page={page}
             isLoading={isLoading}
+            isGroup={true}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +84,9 @@ const Home: NextPage = () => {
             onClick={onNextBtn}
             direction="next"
             page={page}
-            itemLength={data?.products?.length}
+            itemLength={data?.nextProducts?.length}
             isLoading={isLoading}
+            isGroup={true}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -102,7 +103,7 @@ const Home: NextPage = () => {
               />
             </svg>
           </PaginationButton>
-          <FloatingButton href="/products/upload">
+          <FloatingButton href="/products/upload" isGroup={true}>
             <svg
               className="h-6 w-6"
               xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +120,7 @@ const Home: NextPage = () => {
               />
             </svg>
           </FloatingButton>
-        </>
+        </div>
       ) : null}
     </Layout>
   );

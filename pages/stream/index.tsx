@@ -81,7 +81,12 @@ const Streams: NextPage = () => {
           </Link>
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="prev" page={page}>
+      <PaginationButton
+        onClick={onPrevBtn}
+        direction="prev"
+        page={page}
+        isGroup={true}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -102,6 +107,7 @@ const Streams: NextPage = () => {
         direction="next"
         page={page}
         itemLength={data?.streams.length}
+        isGroup={true}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -118,7 +124,7 @@ const Streams: NextPage = () => {
           />
         </svg>
       </PaginationButton>
-      <FloatingButton href="/stream/create">
+      <FloatingButton href="/stream/create" isGroup={true}>
         <svg
           className="h-6 w-6"
           fill="none"

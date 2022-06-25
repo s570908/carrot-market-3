@@ -13,6 +13,9 @@ async function handler(
     } = req;
     const limit = 10;
     const products = await client.products.findMany({
+      where: {
+        isSell: false,
+      },
       include: {
         _count: {
           select: {
@@ -34,9 +37,35 @@ async function handler(
       skip: (+page - 1) * limit,
       orderBy: { created: "desc" },
     });
+    const nextProducts = await client.products.findMany({
+      where: {
+        isSell: false,
+      },
+      include: {
+        _count: {
+          select: {
+            fav: true,
+          },
+        },
+        fav: {
+          select: {
+            userId: true,
+          },
+        },
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+      take: limit,
+      skip: (+page + 1 - 1) * limit,
+      orderBy: { created: "desc" },
+    });
     res.json({
       ok: true,
       products,
+      nextProducts,
     });
   }
   if (req.method === "POST") {

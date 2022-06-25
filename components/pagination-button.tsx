@@ -8,6 +8,7 @@ interface PaginationButton {
   page: number;
   itemLength?: any;
   isProfile?: boolean;
+  isGroup?: boolean;
   [key: string]: any;
 }
 
@@ -19,26 +20,26 @@ export default function PaginationButton({
   onClick,
   rest,
   isProfile,
+  isGroup,
 }: PaginationButton) {
   return (
     <button
       {...rest}
       onClick={onClick}
       className={cls(
-        isProfile
-          ? "bottom-24"
-          : direction === "next" || (direction === "prev" && page <= 1)
-          ? "bottom-40"
-          : "bottom-56",
+        (isGroup && direction === "next") || (direction === "prev" && page <= 1)
+          ? "z-10 group-hover:bottom-40"
+          : "z-0 group-hover:bottom-56",
         direction === "prev" && page <= 1 ? "hidden" : "",
-        (direction === "next" || isProfile) && itemLength < 10
+        (direction === "next" || isProfile) && itemLength < 1
           ? "bg-gray-500 text-gray-800 hover:bg-gray-500"
-          : "",
-        `fixed right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full  border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
+          : isProfile
+          ? "bottom-10"
+          : "bottom-24",
+        isProfile && itemLength < 1 ? "hidden" : "",
+        `fixed right-5 bottom-24 flex aspect-square w-14 cursor-pointer items-center justify-center  rounded-full border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
       )}
-      disabled={
-        (direction === "next" || isProfile) && itemLength < 10 ? true : false
-      }
+      disabled={direction === "next" && itemLength < 1 ? true : false}
     >
       {children}
     </button>

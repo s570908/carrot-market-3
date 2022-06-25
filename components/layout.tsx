@@ -12,6 +12,7 @@ interface LayoutProps {
   children: React.ReactNode;
   backUrl?: any;
   head: string;
+  isProfile?: boolean;
   [key: string]: any;
 }
 
@@ -34,6 +35,7 @@ export default function Layout({
   children,
   backUrl,
   head,
+  isProfile,
   ...rest
 }: LayoutProps) {
   const { user } = useUser();
@@ -84,7 +86,13 @@ export default function Layout({
           <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
         ) : null}
       </div>
-      <div className={cls("z-0 pt-12 sm:pb-0", hasTabBar ? "pb-24" : "")}>
+      <div
+        className={cls(
+          "z-0 pt-12 sm:pb-0",
+          hasTabBar ? "pb-24" : "",
+          isProfile ? "pb-5" : ""
+        )}
+      >
         {children}
       </div>
       {hasTabBar ? (

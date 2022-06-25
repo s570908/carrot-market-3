@@ -5,12 +5,22 @@ import React from "react";
 interface FloatingButton {
   children: React.ReactNode;
   href: string;
+  isGroup?: boolean;
 }
 
-export default function FloatingButton({ children, href }: FloatingButton) {
+export default function FloatingButton({
+  children,
+  href,
+  isGroup,
+}: FloatingButton) {
   return (
     <Link href={href}>
-      <a className="fixed bottom-24 right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full border-0 border-transparent bg-orange-400 text-white shadow-xl transition-colors hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]">
+      <a
+        className={cls(
+          isGroup ? "z-20 transition-all" : "",
+          "fixed bottom-24 right-5 flex aspect-square w-14 cursor-pointer items-center justify-center rounded-full border-0 border-transparent bg-orange-400 text-white shadow-xl transition-colors hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]"
+        )}
+      >
         {children}
       </a>
     </Link>

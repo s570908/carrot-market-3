@@ -116,7 +116,12 @@ const Community: NextPage = () => {
           </Link>
         ))}
       </div>
-      <PaginationButton onClick={onPrevBtn} direction="prev" page={page}>
+      <PaginationButton
+        onClick={onPrevBtn}
+        direction="prev"
+        page={page}
+        isGroup={true}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-6 w-6"
@@ -137,6 +142,7 @@ const Community: NextPage = () => {
         direction="next"
         page={page}
         itemLength={data?.posts.length}
+        isGroup={true}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -153,7 +159,7 @@ const Community: NextPage = () => {
           />
         </svg>
       </PaginationButton>
-      <FloatingButton href="/community/write">
+      <FloatingButton href="/community/write" isGroup={true}>
         <svg
           className="h-6 w-6"
           fill="none"
