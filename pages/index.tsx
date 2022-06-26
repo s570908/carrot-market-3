@@ -57,7 +57,7 @@ const Home: NextPage = () => {
         ))}
       </div>
       {data ? (
-        <div className="group relative">
+        <div className="group relative w-full">
           <PaginationButton
             onClick={onPrevBtn}
             direction="prev"

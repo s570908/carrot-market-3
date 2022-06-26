@@ -37,7 +37,7 @@ export default function PaginationButton({
           ? "bottom-10"
           : "bottom-24",
         isProfile && itemLength < 1 ? "hidden" : "",
-        `fixed right-5 bottom-24 flex aspect-square w-14 cursor-pointer items-center justify-center  rounded-full border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:sticky sm:translate-x-[32rem]`
+        `fixed right-5 bottom-24 flex aspect-square w-14 cursor-pointer items-center justify-center  rounded-full border-0 border-transparent bg-orange-400 text-white shadow-xl transition-all hover:bg-orange-500 sm:right-[8%] md:right-[15%] lg:right-1/4 xl:right-[30%] 2xl:right-[36%]`
       )}
       disabled={direction === "next" && itemLength < 1 ? true : false}
     >
