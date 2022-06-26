@@ -90,7 +90,7 @@ export default function Layout({
         className={cls(
           "z-0 pt-12 sm:pb-0",
           hasTabBar ? "pb-24" : "",
-          isProfile ? "pb-5" : ""
+          isProfile ? "pb-5 sm:pb-10" : ""
         )}
       >
         {children}
