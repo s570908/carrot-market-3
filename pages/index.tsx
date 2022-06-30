@@ -38,7 +38,7 @@ const Home: NextPage = () => {
     setPage((prev) => prev + 1);
   };
   return (
-    <Layout head="Home" title="홈" hasTabBar>
+    <Layout head="Home" title="홈" hasTabBar notice>
       <div className="flex flex-col space-y-5 divide-y px-4">
         {data?.products?.map((product) => (
           <Item

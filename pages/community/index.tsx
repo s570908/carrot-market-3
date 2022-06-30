@@ -55,7 +55,7 @@ const Community: NextPage = () => {
     });
   }, [data, router]);
   return (
-    <Layout head="동네생활" title="동네생활" hasTabBar>
+    <Layout head="동네생활" title="동네생활" hasTabBar notice>
       <div className="space-y-6 px-4 py-4">
         {data?.posts?.map((post) => (
           <Link key={post.id} href={`/community/${post.id}`}>

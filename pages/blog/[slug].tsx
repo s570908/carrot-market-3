@@ -8,7 +8,7 @@ import { unified } from "unified";
 
 const Post: NextPage<{ post: string; data: any }> = ({ post, data }) => {
   return (
-    <Layout head={data.title} title={data.title}>
+    <Layout head={data.title} title={data.title} canGoBack backUrl="back">
       <div
         className="blog-post-content"
         dangerouslySetInnerHTML={{ __html: post }}

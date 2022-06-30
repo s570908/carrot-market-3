@@ -38,7 +38,7 @@ const Chats: NextPage = () => {
     }
   }, [data]);
   return (
-    <Layout head="채팅" title="채팅" hasTabBar>
+    <Layout head="채팅" title="채팅" hasTabBar notice>
       <div className="divide-y-[1px] py-10">
         {data?.chatRoomList.map((chatRoom) => (
           <Link href={`/chats/${chatRoom.id}`} key={chatRoom.id}>

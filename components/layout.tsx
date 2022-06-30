@@ -13,6 +13,7 @@ interface LayoutProps {
   backUrl?: any;
   head: string;
   isProfile?: boolean;
+  notice?: boolean;
   [key: string]: any;
 }
 
@@ -36,6 +37,7 @@ export default function Layout({
   backUrl,
   head,
   isProfile,
+  notice,
   ...rest
 }: LayoutProps) {
   const { user } = useUser();
@@ -84,6 +86,13 @@ export default function Layout({
         ) : null}
         {title ? (
           <span className={cls(canGoBack ? "mx-auto" : "", "")}>{title}</span>
+        ) : null}
+        {notice ? (
+          <Link href="/blog">
+            <a className="absolute right-4 rounded-md border-2 bg-orange-500 p-1 text-sm text-white hover:bg-orange-600">
+              <span>공지사항</span>
+            </a>
+          </Link>
         ) : null}
       </div>
       <div
