@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import PaginationButton from "@components/pagination-button";
 import client from "@libs/server/client";
-// import products from "pages/api/products";
 
 export interface ProductWithCount extends Products {
   fav: Fav[];

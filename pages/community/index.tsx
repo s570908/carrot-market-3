@@ -11,6 +11,7 @@ import PaginationButton from "@components/pagination-button";
 import { cls } from "@libs/client/utils";
 import useUser from "@libs/client/useUser";
 import { useRouter } from "next/router";
+import client from "@libs/server/client";
 
 interface PostWithUser extends Post {
   user: User;
@@ -22,42 +23,42 @@ interface PostWithUser extends Post {
 }
 
 interface PostsResponse {
-  ok: boolean;
+  // ok: boolean;
   posts: PostWithUser[];
 }
 
-const Community: NextPage = () => {
+const Community: NextPage<PostsResponse> = ({ posts }) => {
   const { user } = useUser();
-  const router = useRouter();
-  const { latitude, longitude } = useCoords();
-  const [page, setPage] = useState(1);
-  const [isWonder, setIsWonder] = useState(false);
-  const { data } = useSWR<PostsResponse>(
-    latitude && longitude
-      ? `/api/posts?page=${page}&latitude=${latitude}&longitude=${longitude}`
-      : null
-  );
-  const onPrevBtn = () => {
-    setPage((prev) => prev - 1);
-  };
-  const onNextBtn = () => {
-    setPage((prev) => prev + 1);
-  };
-  useEffect(() => {
-    data?.posts.map((post) => {
-      post.wonderings.map((who) => {
-        if (who.userId === user?.id) {
-          setIsWonder(true);
-        } else {
-          setIsWonder(false);
-        }
-      });
-    });
-  }, [data, router]);
+  // const router = useRouter();
+  // const { latitude, longitude } = useCoords();
+  // const [page, setPage] = useState(1);
+  // const [isWonder, setIsWonder] = useState(false);
+  // const { data } = useSWR<PostsResponse>(
+  //   latitude && longitude
+  //     ? `/api/posts?page=${page}&latitude=${latitude}&longitude=${longitude}`
+  //     : null
+  // );
+  // const onPrevBtn = () => {
+  //   setPage((prev) => prev - 1);
+  // };
+  // const onNextBtn = () => {
+  //   setPage((prev) => prev + 1);
+  // };
+  // useEffect(() => {
+  //   data?.posts.map((post) => {
+  //     post.wonderings.map((who) => {
+  //       if (who.userId === user?.id) {
+  //         setIsWonder(true);
+  //       } else {
+  //         setIsWonder(false);
+  //       }
+  //     });
+  //   });
+  // }, [data, router]);
   return (
     <Layout head="동네생활" title="동네생활" hasTabBar notice>
       <div className="space-y-6 px-4 py-4">
-        {data?.posts?.map((post) => (
+        {posts?.map((post) => (
           <Link key={post.id} href={`/community/${post.id}`}>
             <a className="flex cursor-pointer flex-col items-start pt-4">
               <span className="ml-4 flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
@@ -74,7 +75,7 @@ const Community: NextPage = () => {
               <div className="mt-3 flex w-full space-x-5 border-t px-4 py-2.5   text-gray-700">
                 <span
                   className={cls(
-                    isWonder ? "text-green-700" : "",
+                    // isWonder ? "text-green-700" : "",
                     "flex items-center space-x-2 text-sm"
                   )}
                 >
@@ -92,7 +93,7 @@ const Community: NextPage = () => {
                       d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
                     ></path>
                   </svg>
-                  <span>궁금해요 {post._count.wonderings}</span>
+                  <span>궁금해요 {post._count?.wonderings}</span>
                 </span>
                 <span className="flex items-center space-x-2 text-sm">
                   <svg
@@ -109,14 +110,14 @@ const Community: NextPage = () => {
                       d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
                     ></path>
                   </svg>
-                  <span>답변 {post._count.answer}</span>
+                  <span>답변 {post._count?.answer}</span>
                 </span>
               </div>
             </a>
           </Link>
         ))}
       </div>
-      <PaginationButton
+      {/* <PaginationButton
         onClick={onPrevBtn}
         direction="prev"
         page={page}
@@ -158,7 +159,7 @@ const Community: NextPage = () => {
             d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
           />
         </svg>
-      </PaginationButton>
+      </PaginationButton> */}
       <FloatingButton href="/community/write" isGroup={true}>
         <svg
           className="h-6 w-6"
@@ -178,5 +179,15 @@ const Community: NextPage = () => {
     </Layout>
   );
 };
+
+export async function getStaticProps() {
+  const posts = await client?.post.findMany({ include: { user: true } });
+  return {
+    props: {
+      posts: JSON.parse(JSON.stringify(posts)),
+    },
+    revalidate: 20,
+  };
+}
 
 export default Community;
