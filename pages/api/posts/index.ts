@@ -24,6 +24,7 @@ async function handler(
         },
       },
     });
+    await res.unstable_revalidate("/community");
     res.json({
       ok: true,
       post,
@@ -34,8 +35,8 @@ async function handler(
       query: { latitude, longitude, page },
       session: { user },
     } = req;
-    const parseLatitude = parseFloat(latitude.toString());
-    const parseLongitude = parseFloat(longitude.toString());
+    // const parseLatitude = parseFloat(latitude.toString());
+    // const parseLongitude = parseFloat(longitude.toString());
     const limit = 10;
     const posts = await client.post.findMany({
       include: {
@@ -58,21 +59,21 @@ async function handler(
           },
         },
       },
-      where: {
-        latitude: {
-          gte: parseLatitude - 0.01,
-          lte: parseLatitude + 0.01,
-        },
-        longitude: {
-          gte: parseLongitude - 0.01,
-          lte: parseLongitude + 0.01,
-        },
-      },
+      // where: {
+      //   latitude: {
+      //     gte: parseLatitude - 0.01,
+      //     lte: parseLatitude + 0.01,
+      //   },
+      //   longitude: {
+      //     gte: parseLongitude - 0.01,
+      //     lte: parseLongitude + 0.01,
+      //   },
+      // },
       orderBy: {
         id: "desc",
       },
       take: limit,
-      skip: (+page - 1) * limit,
+      // skip: (+page - 1) * limit,
     });
     res.json({
       ok: true,
