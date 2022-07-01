@@ -73,7 +73,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
         ? router.push(`/chats/${talkToSellerData.chatRoomList.id}`)
         : router.push(`/chats/${talkToSellerData.createChat.id}`);
     }
-  }, [talkToSellerData]);
+  }, [router, talkToSellerData]);
   // if (router.isFallback) {
   //   return (
   //     <Layout head="캐럿" title="Loading for you" canGoBack backUrl={"back"}>
@@ -246,7 +246,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
             <div className="grid grid-cols-2 gap-4">
               {relatedProducts?.map((product) => (
                 <Link href={`/products/${product.id}`} key={product.id}>
-                  <div className="cursor-pointer">
+                  <a className="cursor-pointer">
                     <ImgComponent
                       imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${product?.image}/public`}
                       isLayout={true}
@@ -259,7 +259,7 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
                     <span className="text-xs font-medium text-gray-900">
                       ￦{product.price}
                     </span>
-                  </div>
+                  </a>
                 </Link>
               ))}
             </div>
