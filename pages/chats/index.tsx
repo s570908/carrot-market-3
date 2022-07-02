@@ -73,7 +73,7 @@ const Chats: NextPage = () => {
                 <p className="text-sm  text-gray-500">
                   {chatRoom.recentMsg?.chatMsg}
                 </p>
-                {chatRoom.recentMsg.isNew &&
+                {chatRoom.recentMsg?.isNew &&
                 chatRoom.recentMsg.userId !== user?.id ? (
                   <span className="absolute top-2 right-0 text-orange-500">
                     <svg

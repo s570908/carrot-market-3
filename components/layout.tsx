@@ -53,10 +53,10 @@ export default function Layout({
   const { data } = useSWR<NewChatProps>(`/api/newchat`);
   useEffect(() => {
     data?.newChat?.map((chat) => {
-      if (chat.recentMsg.isNew && chat.recentMsg.userId !== user?.id)
+      if (chat.recentMsg?.isNew && chat.recentMsg.userId !== user?.id)
         setIsNew(true);
     });
-  }, [data]);
+  }, [data, user]);
   return (
     <div>
       <Head>
@@ -97,7 +97,7 @@ export default function Layout({
       </div>
       <div
         className={cls(
-          "z-0 pt-12 sm:pb-0",
+          "z-0 pt-12",
           hasTabBar ? "pb-24" : "",
           isProfile ? "pb-5 sm:pb-10" : ""
         )}

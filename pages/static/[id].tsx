@@ -192,20 +192,30 @@ const ItemDetail: NextPage<ItemDetailResponse> = ({
             </div>
             <div className="flex items-center justify-between space-x-2">
               {/*@ts-ignore*/}
-              <Button onClick={onChatClick} large text="Talk to Seller" />
-              <Button onClick={onBuyClick} large text="Buy It" />
-              {product ? null : (
+              {data?.product?.productReviews?.length > 0 ? (
+                <Button disabled large text="Good Carrot!" />
+              ) : data?.product.isSell ? (
+                <Button onClick={onReviewClick} large text="Go to Review!" />
+              ) : data?.product?.userId === user?.id ? (
+                <Button disabled large text="My item" />
+              ) : (
+                <>
+                  <Button onClick={onChatClick} large text="Talk to Seller" />
+                  <Button onClick={onBuyClick} large text="Buy It" />
+                </>
+              )}
+              {product.isSell ? null : (
                 <button
                   onClick={onFavClick}
-                  // disabled={product?.userId === user?.id}
+                  disabled={product?.userId === user?.id}
                   className={cls(
-                    isLike
+                    data?.isLike
                       ? " text-red-400 hover:text-red-500"
                       : "text-gray-400 hover:text-gray-500",
                     "flex items-center justify-center rounded-md p-3 hover:bg-gray-100 "
                   )}
                 >
-                  {isLike ? (
+                  {data?.isLike ? (
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       className="h-6 w-6"
@@ -329,13 +339,11 @@ export const getStaticProps: GetStaticProps = async (ctx) => {
     },
     take: 10,
   });
-  const isLike = false;
   // await new Promise((resolve) => setTimeout(resolve, 10000));
   return {
     props: {
       product: JSON.parse(JSON.stringify(product)),
       relatedProducts: JSON.parse(JSON.stringify(relatedProducts)),
-      isLike: JSON.parse(JSON.stringify(isLike)),
     },
   };
 };
