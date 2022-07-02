@@ -6,7 +6,7 @@ import useUser from "@libs/client/useUser";
 import useSWR, { SWRConfig } from "swr";
 import { Fav, Products } from "@prisma/client";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import PaginationButton from "@components/pagination-button";
 import client from "@libs/server/client";
 
