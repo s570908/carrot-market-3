@@ -57,6 +57,7 @@ const Review: NextPage = () => {
             layoutHeight="h-72"
             imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
             clsProps="object-scale-down"
+            imgName={data?.product?.name}
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
             {data?.product?.user?.avatar ? (
@@ -65,6 +66,7 @@ const Review: NextPage = () => {
                 width={48}
                 height={48}
                 clsProps="rounded-full"
+                imgName={data?.product?.user?.name}
               />
             ) : (
               <div className="h-12 w-12 rounded-full bg-slate-300" />

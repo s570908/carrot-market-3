@@ -83,7 +83,7 @@ const CommunityPostDetail: NextPage = () => {
       reset();
       mutate();
     }
-  }, [answerData, reset]);
+  }, [answerData, reset, mutate]);
   return (
     <Layout head="동네생활" title="동네생활" canGoBack backUrl={"/community"}>
       <div>
@@ -96,6 +96,7 @@ const CommunityPostDetail: NextPage = () => {
             width={40}
             height={40}
             clsProps="rounded-full"
+            imgName={data?.post?.user?.name}
           />
           <div>
             <p className="text-sm font-medium text-gray-700">
@@ -165,6 +166,7 @@ const CommunityPostDetail: NextPage = () => {
                   width={32}
                   height={32}
                   clsProps="rounded-full"
+                  imgName={ans.user.name}
                 />
               ) : (
                 <div className="h-8 w-8 rounded-full bg-slate-200" />

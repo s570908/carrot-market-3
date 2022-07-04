@@ -50,6 +50,7 @@ const Chats: NextPage = () => {
                     width={48}
                     height={48}
                     clsProps="rounded-full"
+                    imgName={chatRoom.seller.name}
                   />
                 ) : (
                   <div className="h-12 w-12 rounded-full bg-slate-500" />
@@ -60,6 +61,7 @@ const Chats: NextPage = () => {
                   width={48}
                   height={48}
                   clsProps="rounded-full"
+                  imgName={chatRoom.buyer.name}
                 />
               ) : (
                 <div className="h-12 w-12 rounded-full bg-slate-500" />

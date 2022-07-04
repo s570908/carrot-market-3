@@ -51,6 +51,7 @@ const Profile: NextPage = () => {
               height={48}
               clsProps="rounded-md bg-gray-400"
               imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.other.avatar}/avatar`}
+              imgName={data?.other.name}
             />
           ) : (
             <div className="h-12 w-12 rounded-full bg-slate-500" />

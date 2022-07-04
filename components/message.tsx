@@ -32,6 +32,7 @@ export default function Message({
             width={32}
             height={32}
             clsProps="rounded-full"
+            imgName={name}
           />
         ) : (
           <div className="h-8 w-8 rounded-full bg-slate-400" />

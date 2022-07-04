@@ -31,6 +31,7 @@ export default function Item({
             height={80}
             clsProps="rounded-md bg-gray-400"
             imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${photo}/product`}
+            imgName={title}
           />
           <div className="flex flex-col pt-2">
             <h3 className="text-sm font-medium text-gray-900">{title}</h3>

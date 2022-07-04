@@ -9,8 +9,9 @@ import useMutation from "@libs/client/useMutation";
 import { cls } from "@libs/client/utils";
 import useUser from "@libs/client/useUser";
 import ImgComponent from "@components/img-component";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import RegDate from "@components/regDate";
+import { Skeleton } from "@mui/material";
 
 interface ProductWithReview extends Review {
   createBy: User;
@@ -78,6 +79,7 @@ const ItemDetail: NextPage = () => {
             layoutHeight="h-80"
             imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
             clsProps="object-scale-down"
+            imgName={data?.product?.name}
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
             {data?.product?.user?.avatar ? (
@@ -86,6 +88,7 @@ const ItemDetail: NextPage = () => {
                 width={48}
                 height={48}
                 clsProps="rounded-full"
+                imgName={data?.product?.user?.name}
               />
             ) : (
               <div className="h-12 w-12 rounded-full bg-slate-300" />
@@ -135,6 +138,7 @@ const ItemDetail: NextPage = () => {
                           width={48}
                           height={48}
                           clsProps="rounded-full"
+                          imgName={review.createBy?.name}
                         />
                       ) : (
                         <div className="h-12 w-12 rounded-full bg-slate-500" />
@@ -252,6 +256,7 @@ const ItemDetail: NextPage = () => {
                       isLayout={true}
                       layoutHeight="h-56"
                       clsProps="mt-6 mb-4 bg-slate-300"
+                      imgName={product.name}
                     />
                     <h3 className="-mb-1 text-base text-gray-700">
                       {product.name}

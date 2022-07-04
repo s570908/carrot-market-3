@@ -45,11 +45,13 @@ const Streams: NextPage = () => {
                   <Image
                     layout="fill"
                     src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?height=320`}
+                    alt={stream.name}
                   />
                 ) : (
                   <Image
                     layout="fill"
                     src={`https://videodelivery.net/${stream.replayVideoId}/thumbnails/thumbnail.jpg`}
+                    alt={stream.name}
                   />
                 )}
               </div>
