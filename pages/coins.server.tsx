@@ -1,17 +1,49 @@
 import { Suspense } from "react";
 
-let finished = false;
-function List() {
-  if (!finished) {
+const cache: any = {};
+function fetchData(url: string) {
+  if (!cache[url]) {
     throw Promise.all([
-      new Promise((resolve) => setTimeout(resolve, 15000)),
-      new Promise((resolve) => {
-        finished = true;
-        resolve("");
-      }),
+      fetch(url)
+        .then((r) => r.json())
+        .then((json) => (cache[url] = json)),
+      new Promise((resolve) =>
+        setTimeout(resolve, Math.round(Math.random() * 15000))
+      ),
     ]);
   }
-  return <ul>xxxxx</ul>;
+  return cache[url];
+}
+
+function Coin({ id, name, symbol }: any) {
+  const {
+    quotes: {
+      USD: { price },
+    },
+  } = fetchData(`https://api.coinpaprika.com/v1/tickers/${id}`);
+  return (
+    <span>
+      {name} / {symbol} : ${price}
+    </span>
+  );
+}
+function List() {
+  new Promise((resolve) =>
+    setTimeout(resolve, Math.round(Math.random() * 15000))
+  );
+  const coins = fetchData("https://api.coinpaprika.com/v1/coins");
+  return (
+    <div>
+      <h4>List is done</h4>
+      {coins.slice(0, 10).map((coin: any) => (
+        <li key={coin.id}>
+          <Suspense fallback={`Coin ${coin.name} is Loading`}>
+            <Coin {...coin} />
+          </Suspense>
+        </li>
+      ))}
+    </div>
+  );
 }
 
 export default function Coins() {
