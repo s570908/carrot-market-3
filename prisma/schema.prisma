@@ -63,6 +63,8 @@ model Products {
   purchase       Purchase[]
   record         Record[]
   productReviews Review[]   @relation(name: "productReviews")
+
+  @@index([userId])
 }
 
 model Post {
@@ -76,6 +78,8 @@ model Post {
   longitude  Float?
   answer     Answer[]
   wonderings Wondering[]
+
+  @@index([userId])
 }
 
 model Answer {
@@ -87,6 +91,9 @@ model Answer {
   answer  String   @db.MediumText
   created DateTime @default(now())
   updated DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Wondering {
@@ -97,6 +104,9 @@ model Wondering {
   postId  Int
   created DateTime @default(now())
   updated DateTime @updatedAt
+
+  @@index([userId])
+  @@index([postId])
 }
 
 model Review {
@@ -111,6 +121,9 @@ model Review {
   created      DateTime @default(now())
   updated      DateTime @updatedAt
   score        Int      @default(1)
+
+  @@index([createdById])
+  @@index([createdForId])
 }
 
 model Sale {
@@ -121,6 +134,9 @@ model Sale {
   productId Int
   created   DateTime @default(now())
   updated   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Purchase {
@@ -131,6 +147,9 @@ model Purchase {
   productId Int
   created   DateTime @default(now())
   updated   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Fav {
@@ -141,6 +160,9 @@ model Fav {
   productId Int
   created   DateTime @default(now())
   updated   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Stream {
@@ -158,6 +180,8 @@ model Stream {
   cloudflareKey String    @default("a")
   replayVideoId String    @default("a")
   live          Boolean   @default(false)
+
+  @@index([userId])
 }
 
 model Message {
@@ -169,6 +193,9 @@ model Message {
   streamId Int
   created  DateTime @default(now())
   updated  DateTime @updatedAt
+
+  @@index([userId])
+  @@index([streamId])
 }
 
 model Record {
@@ -180,6 +207,9 @@ model Record {
   kind      Kind
   created   DateTime @default(now())
   updated   DateTime @updatedAt
+
+  @@index([userId])
+  @@index([productId])
 }
 
 enum Kind {
