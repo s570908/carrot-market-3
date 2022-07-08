@@ -19,9 +19,7 @@ interface ReviewsResponse {
 }
 
 const Reviews = () => {
-  const { data } = useSWR<ReviewsResponse>(
-    typeof window === "undefined" ? null : "/api/reviews"
-  );
+  const { data } = useSWR<ReviewsResponse>("/api/reviews");
   return (
     <>
       {data?.reviews.map((review) => (
@@ -104,9 +102,7 @@ const Profile: NextPage = () => {
   return (
     <Layout head="나의 캐럿" hasTabBar title="나의 캐럿" notice>
       <div className="px-4">
-        <Suspense fallback="Now loading...">
-          <ProfileHeader />
-        </Suspense>
+        <ProfileHeader />
         <div className="mt-8 flex justify-around border-y py-3">
           <Link href="/profile/sales">
             <a className="flex flex-col items-center">
@@ -180,9 +176,7 @@ const Profile: NextPage = () => {
         </div>
         <div className="flex flex-col space-y-5">
           <div className="pt-3 text-lg font-bold">Received Reviews</div>
-          <Suspense fallback="Now loading...">
-            <Reviews />
-          </Suspense>
+          <Reviews />
         </div>
       </div>
     </Layout>
@@ -191,11 +185,7 @@ const Profile: NextPage = () => {
 
 const Page: NextPage = () => {
   return (
-    <SWRConfig
-      value={{
-        suspense: true,
-      }}
-    >
+    <SWRConfig value={{}}>
       <Profile />
     </SWRConfig>
   );
