@@ -3,15 +3,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import withHandler, { ResponseType } from "@libs/server/withHandler";
 import client from "@libs/server/client";
 
-const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
-const nodemailer = require("nodemailer");
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.GMAIL_ID,
-    pass: process.env.GMAIL_PWD,
-  },
-});
+// const twilioClient = twilio(process.env.TWILIO_SID, process.env.TWILIO_TOKEN);
+// const nodemailer = require("nodemailer");
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     user: process.env.GMAIL_ID,
+//     pass: process.env.GMAIL_PWD,
+//   },
+// });
 async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseType>
