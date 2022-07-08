@@ -59,7 +59,7 @@ const Enter: NextPage = () => {
       <Head>
         <title>Log in</title>
       </Head>
-      <h3 className="text-center text-3xl font-bold">Enter to Carrot</h3>
+      <h3 className="text-center text-3xl font-bold">Another Carrot Page</h3>
       <div className="mt-8">
         {data?.ok ? (
           <form
