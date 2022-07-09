@@ -1,4 +1,5 @@
 import Layout from "@components/layout";
+import { readdirSync } from "fs";
 import matter from "gray-matter";
 import { GetStaticProps, NextPage } from "next";
 import remarkHtml from "remark-html";
@@ -17,13 +18,13 @@ const Post: NextPage<{ post: string; data: any }> = ({ post, data }) => {
 };
 
 export function getStaticPaths() {
-  // const files = readdirSync("./posts").map((file) => {
-  //   const [name, extension] = file.split(".");
-  //   return { params: { slug: name } };
-  // });
+  const files = readdirSync("./posts").map((file) => {
+    const [name, extension] = file.split(".");
+    return { params: { slug: name } };
+  });
   return {
-    paths: [],
-    fallback: "blocking",
+    paths: files,
+    fallback: false,
   };
 }
 
