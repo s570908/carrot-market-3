@@ -92,7 +92,7 @@ const CommunityPostDetail: NextPage = () => {
         </span>
         <div className="mb-3 flex items-center space-x-3  border-b px-4 pb-3">
           <ImgComponent
-            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
+            imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
             width={40}
             height={40}
             clsProps="rounded-full"
@@ -162,7 +162,7 @@ const CommunityPostDetail: NextPage = () => {
             <div key={ans.id} className="flex items-start space-x-3">
               {ans.user.avatar ? (
                 <ImgComponent
-                  imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.post?.user?.avatar}/avatar`}
+                  imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                   width={32}
                   height={32}
                   clsProps="rounded-full"

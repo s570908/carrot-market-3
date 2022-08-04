@@ -28,7 +28,7 @@ const Reviews = () => {
             <div className="flex items-center space-x-4">
               {review.createBy.avatar ? (
                 <ImgComponent
-                  imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy.avatar}/avatar`}
+                  imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                   width={48}
                   height={48}
                   clsProps="rounded-full"

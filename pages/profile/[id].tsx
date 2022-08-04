@@ -50,7 +50,7 @@ const Profile: NextPage = () => {
               width={48}
               height={48}
               clsProps="rounded-md bg-gray-400"
-              imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.other.avatar}/avatar`}
+              imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
               imgName={data?.other.name}
             />
           ) : (
@@ -70,7 +70,7 @@ const Profile: NextPage = () => {
                 width={80}
                 height={80}
                 clsProps="rounded-md bg-gray-400"
-                imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${item.product.image}/product`}
+                imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
               />
               <div className="flex flex-col pt-2">
                 <h3 className="text-sm font-medium text-gray-900">

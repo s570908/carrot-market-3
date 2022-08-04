@@ -7,7 +7,11 @@ const nextConfig = {
     serverComponents: true,
   },
   images: {
-    domains: ["imagedelivery.net", "videodelivery.net"],
+    domains: [
+      "imagedelivery.net",
+      "videodelivery.net",
+      "raw.githubusercontent.com",
+    ],
   },
 };
 

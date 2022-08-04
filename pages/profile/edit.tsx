@@ -36,7 +36,7 @@ const EditProfile: NextPage = () => {
     if (user?.phone) setValue("phone", user.phone);
     if (user?.avatar)
       setAvatarPreview(
-        `https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${user?.avatar}/avatar`
+        `https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`
       );
   }, [user, setValue]);
   const [editProfile, { data, loading }] =

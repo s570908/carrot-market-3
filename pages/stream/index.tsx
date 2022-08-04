@@ -44,13 +44,13 @@ const Streams: NextPage = () => {
                 {stream.live ? (
                   <Image
                     layout="fill"
-                    src={`https://videodelivery.net/${stream.cloudflareId}/thumbnails/thumbnail.jpg?height=320`}
+                    src={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                     alt={stream.name}
                   />
                 ) : (
                   <Image
                     layout="fill"
-                    src={`https://videodelivery.net/${stream.replayVideoId}/thumbnails/thumbnail.jpg`}
+                    src={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                     alt={stream.name}
                   />
                 )}

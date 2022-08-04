@@ -80,19 +80,15 @@ const StreamDetail: NextPage = () => {
       <div className="space-y-4 py-10  px-4">
         <div className="relative bg-slate-300">
           {data?.live ? (
-            <iframe
+            <img
               className="aspect-video w-full rounded-md shadow-sm"
-              src={`https://iframe.videodelivery.net/${data?.stream.cloudflareId}}`}
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowFullScreen={true}
-            ></iframe>
+              src={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
+            />
           ) : (
-            <iframe
+            <img
               className="aspect-video w-full rounded-md shadow-sm"
-              src={`https://iframe.videodelivery.net/${data?.stream.replayVideoId}}`}
-              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-              allowFullScreen={true}
-            ></iframe>
+              src={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
+            />
           )}
           <div className="absolute top-0 right-1">
             <svg
@@ -154,7 +150,9 @@ const StreamDetail: NextPage = () => {
                 key={message.id}
                 name={message.user.name}
                 message={message.message}
-                avatar={message.user.avatar}
+                avatar={
+                  "https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg"
+                }
               />
             ))}
           </div>

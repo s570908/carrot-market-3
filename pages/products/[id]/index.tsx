@@ -77,14 +77,14 @@ const ItemDetail: NextPage = () => {
           <ImgComponent
             isLayout={true}
             layoutHeight="h-80"
-            imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.image}/public`}
+            imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
             clsProps="object-scale-down"
             imgName={data?.product?.name}
           />
           <div className="flex cursor-pointer items-center space-x-3 border-t border-b py-3">
             {data?.product?.user?.avatar ? (
               <ImgComponent
-                imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${data?.product?.user?.avatar}/avatar`}
+                imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                 width={48}
                 height={48}
                 clsProps="rounded-full"
@@ -134,7 +134,7 @@ const ItemDetail: NextPage = () => {
                     <div className="flex flex-col items-center justify-center space-y-1">
                       {review.createBy?.avatar ? (
                         <ImgComponent
-                          imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${review.createBy?.avatar}/avatar`}
+                          imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                           width={48}
                           height={48}
                           clsProps="rounded-full"
@@ -252,7 +252,7 @@ const ItemDetail: NextPage = () => {
                 <Link href={`/products/${product.id}`} key={product.id}>
                   <a className="cursor-pointer">
                     <ImgComponent
-                      imgAdd={`https://imagedelivery.net/D0zOSDPhfEMFCyc4YdUxfQ/${product?.image}/public`}
+                      imgAdd={`https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg`}
                       isLayout={true}
                       layoutHeight="h-56"
                       clsProps="mt-6 mb-4 bg-slate-300"

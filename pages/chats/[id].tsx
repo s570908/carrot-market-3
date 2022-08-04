@@ -89,7 +89,9 @@ const ChatDetail: NextPage = () => {
               key={message.id}
               name={message.user.name}
               message={message.chatMsg}
-              avatar={message.user.avatar}
+              avatar={
+                "https://raw.githubusercontent.com/Real-Bird/pb/master/rose.jpg"
+              }
               date={message.created}
             />
           ))}
